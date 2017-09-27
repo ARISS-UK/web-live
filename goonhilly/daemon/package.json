@@ -1,0 +1,17 @@
+{
+  "name": "ttproxy",
+  "description": "Tutioune WebMonitor proxy, fed by websocket",
+  "homepage": "https://github.com/philcrump/",
+  "author": {
+    "name": "Phil Crump",
+    "email": "phil@philcrump.co.uk",
+    "url": "https://philcrump.co.uk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/philcrump/none"
+  },
+  "dependencies": {
+    "socket.io": "^1.7.4"
+  }
+}

@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="ARISS HAMTV Stream">
+<meta name="author" content="ARISS-UK & British Amateur Television Club">
+<link rel="icon" href="/favicon.ico">
+<title>ARISS HAMTV</title>
+<link href="/lib/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<style>
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 600;
+	src:
+		local('Open Sans Semibold'),
+		local('OpenSans-Semibold'),
+		url('/fonts/Open_Sans_600.eot?#iefix') format('embedded-opentype'),
+		url('/fonts/Open_Sans_600.woff') format('woff'),
+		url('/fonts/Open_Sans_600.woff2') format('woff2'),
+		url('/fonts/Open_Sans_600.svg#OpenSans') format('svg'),
+		url('/fonts/Open_Sans_600.ttf') format('truetype');
+}
+#header-image {
+    width: 64%;
+    padding-left: 4px;
+    padding-top: 10px;
+    padding-bottom: 2px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.navbar {
+    border: 0px;
+    background-color: white;
+    margin-bottom: 0px;
+}
+@media (min-width: 768px) {
+    .navbar .navbar-nav {
+        display: inline-block;
+        float: none;
+        vertical-align: top;
+    }
+    .navbar .navbar-collapse {
+        text-align: center;
+    }
+}
+.nav {
+    padding-left: 25px;
+    padding-top: 10px;
+    color: rgba(0, 0, 0, 0.6);
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 14px;
+}
+.navbar-brand {
+    float: none;
+}
+.navbar-toggle {
+    float: left;
+    margin-left: 5px;
+    width: 90%;
+}
+.nav > li {
+    padding-right: 25px;
+}
+.nav > li > a {
+    padding: 0px;
+}
+.nav > li > a:hover {
+    color: rgba(0, 0, 0, 0.6) !important;
+    opacity: 0.7;
+    transition: all 0.4s ease-in-out;
+}
+.navbar > .navbar-collapse > .navbar-nav > li > a:focus {
+    color: rgba(0, 0, 0, 0.6);
+}
+.navbar > .navbar-collapse > .navbar-nav > li > .nav-active {
+    color: #2ea3f2 !important;
+}
+#page-background {
+    background-color: #192833;
+    padding-top: 50px;
+}
+#videochat-row {
+  padding-bottom: 10px;
+}
+#stream-player {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+#stream-player:before {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 56.25%;
+}
+#stream-player > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+#stream-header {
+  text-align: center;
+  color: #FFFFFF;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-weight: bold;
+  width: 100%;
+}
+#stream-stats {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    color: #FFFFFF;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+#stream-credit {
+    float: right;
+}
+#stream-bandwidth {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 100%;
+    color: #FFFFFF;
+    font-size: 90%;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-weight: bold;
+    padding-top: 15px;
+  padding-bottom: 14px;
+}
+.false-link {
+    cursor: pointer;
+}
+#twitter-frame {
+  width: 100%;
+  text-align: center;
+  background-color: white;
+  border-radius: 15px;
+  padding: 15px;
+  padding-top: 3px;
+  padding-bottom: 8px;
+}
+#stations_title {
+  margin-top: 10px;
+  margin-bottom: 5px; 
+}
+#merger_stations_div {
+  text-align: left;
+  margin-bottom: 10px;
+}
+.station-div {
+  margin-top: 14px;
+}
+.station-tag {
+  display: inline;
+  margin-right: 12px;
+  padding-left: 0.8em;
+  padding-right: 0.8em;
+}
+.station-tag-active {
+  opacity: 1.0;
+}
+.station-tag-inactive {
+  opacity: 0.2;
+}
+.station-elevation-visible {
+  display: inline-block;
+  font-size: 14px;
+  opacity: 1.0;
+  color: green;
+  font-weight: bold;
+}
+.station-elevation-horizon {
+  display: inline-block;
+  font-size: 14x;
+  opacity: 1.0;
+  color: orange;
+  font-weight: bold;
+}
+.station-elevation-occluded {
+  display: inline-block;
+  font-size: 14px;
+  opacity: 0.7;
+}
+#footer {
+  padding-top: 14px;
+  padding-left: 8%;
+  padding-bottom: 14px;
+  font-family: "Open Sans", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #111B23;
+  color: #666;
+}
+#twitter-credit {
+  font-size: 10px;
+  color: grey;
+}
+.loading {
+    height: 14px;
+    width: 14px;
+	-webkit-animation:spin 2s linear infinite;
+	-moz-animation:spin 2s linear infinite;
+	animation:spin 2s linear infinite;
+}
+.fast-loading {
+    height: 14px;
+    width: 14px;
+	-webkit-animation:spin 1s linear infinite;
+	-moz-animation:spin 1s linear infinite;
+	animation:spin 1s linear infinite;
+}
+@-moz-keyframes spin { 100% { 
+	-moz-transform:rotate(360deg); 
+	}
+}
+@-webkit-keyframes spin { 100% { 
+	-webkit-transform:rotate(360deg); 
+	}
+}
+@keyframes spin { 100% {
+	-webkit-transform:rotate(360deg);
+	transform:rotate(360deg);
+	}
+}
+svg.poster-icon {
+    display: none !important;
+}
+div[data-watermark] {
+  width: 40%;
+}
+</style>
+</head>
+<body>
+<img id="header-image" src="/images/ariss-stream-logo.png"></img>
+
+<div class="navbar navbar-default" role="navigation">
+  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <a class="navbar-brand">Select Page</a>
+  </button>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="/">Event Webcast</a></li>
+        <li><a href="/tle/">Latest TLE</a></li>
+        <li><a href="#" class="nav-active">HAMTV Receivers</a></li>
+        <li><a href="/goonhilly/" target="_blank">Goonhilly Dashboard</a></li>
+        <li><a href="/media/" target="_blank">Media Archive</a></li>
+        <li><a href="https://principia.ariss.org/" target="_blank">ARISS Principia</a></li>
+      </ul>
+    </div>
+</div>
+
+<div id="page-background">
+<div class="container">
+<div class="row" id="videochat-row">
+<div id="col-player" class="col-md-8">
+  <div id="stream-header">This page shows the HAMTV Downlink Only.&nbsp;&nbsp;<a href="/">Click Here for the Event Live Webcast</a><br></div>
+  <div id="stream-player"></div>
+  <div id="stream-stats"><span id="stream-stats-status">Loading..</span>&nbsp;<span id="stream-credit">Streaming provided by <a href="http://batc.tv/" target="_blank">BATC</a></span></div>
+  <div id="stream-bandwidth"></div>
+</div>
+<div class="col-md-4">
+<div id="twitter-frame">
+  <h3 id="stations_title">HAMTV Receiver Stations</h3>
+  <div id="merger_stations_div">
+  </div>
+</div>
+</div>
+</div>
+<div class="col-md-8 well">
+Video from past HAMTV Contacts can be found at <a href="https://ariss.batc.tv/media/" target="_blank">HAMTV Media</a>
+<br><br>
+This distributed receiver system has been built by Phil Heron MI0VIM and Phil Crump M0DNY, with support of the British Amateur Television Club.
+</div>
+</div>
+<div id="footer">
+© ARISS UK & BATC
+</div>
+</div>
+</body>
+<script src="/lib/jquery-3.2.1.min.js"></script>
+<script src="/lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script src="/lib/clappr-0.2.68/clappr.min.js"></script>
+<script src="/lib/batc-0.1.0.js"></script>
+<script src="/lib/orbits-1.2.1.js"></script>
+<script>
+var hlsSource = "https://hls-edge.batc.tv/hls";
+var hlsSourceUrl = "https://beta.batc.tv/hls/sources.json";
+var streamName = "goonhilly";
+//var streamName = "FAKEFAKE";
+var posterPicture = "images/poster.jpg";
+var posterVideo = "images/poster.mp4";
+var statusHtml_connecting = "Connecting to Server...&nbsp;<img src=\""+loadingImage+"\" class=\"loading\"></img>";
+var statusText_inactive = "Standing by for HAMTV..";
+var statusText_active = "HAMTV is live!";
+
+var merger_box = $('#merger_stations_div');
+var merger_stations = [];// = [null, null, null, null, null, null, null, null];
+
+var ws_url = "wss://ariss.batc.tv/tsmerger-ws/";
+var ws_sock = null;
+var ws_reconnect = null;
+
+ws_connect();
+function ws_connect()
+{
+  if("WebSocket" in window)
+  {
+    if(ws_sock != null)
+    {
+      return;
+    }
+
+    if (typeof MozWebSocket != "undefined")
+    {
+      ws_sock = new MozWebSocket(ws_url);
+    }
+    else
+    {
+      ws_sock = new WebSocket(ws_url);
+    }
+
+    try
+    {
+      ws_sock.onopen = function()
+      {
+        window.clearInterval(ws_reconnect);
+        ws_reconnect = null;
+        //console.log("Websocket Connection Opened");
+      };
+
+      ws_sock.onmessage = function got_packet(msg)
+      {
+        //console.log("Websocket Data: "+msg.data);
+        updateStations(msg.data);
+      };
+
+      ws_sock.onclose = function()
+      {
+        ws_sock.close();
+        ws_sock = null;
+
+        if(!ws_reconnect)
+        {
+          ws_reconnect = setInterval(function()
+          {
+            ws_connect();
+          },500);
+        }
+      };
+    }
+    catch(exception)
+    {
+      console.log("Websocket Error" + exception);  
+    }
+  }
+  else
+  {
+    console.log("Websockets not supported in your browser!");
+  }
+}
+
+
+function updateStations(jdata)
+{
+  var data;
+  
+  try
+  {
+    data = JSON.parse(jdata);
+  }
+  catch(exception)
+  {
+    console.log("Error parsing websocket data" + exception);
+    return;
+  }
+
+  if(data.type == 'merger')
+  {
+    //mx_merger.data_received = new Date();
+    //console.log(data);
+
+    if(tle_loaded)
+    {
+      iss.refresh();
+    }
+
+    data.stations.forEach(function(station)
+    {
+      if(station.enabled==0)
+      {
+        return;
+      }
+
+      if(typeof merger_stations[station.id] == "undefined")
+      {
+        merger_stations[station.id] = {};
+        merger_stations[station.id].callsign = station.callsign;
+        //merger_stations[station.id].enabled = station.enabled;
+
+        switch(station.callsign)
+        {
+          case "GOONHILLY":
+            merger_stations[station.id].location = " - Cornwall, UK";
+            merger_stations[station.id].latitude = 50.049;
+            merger_stations[station.id].longitude = -5.183;
+            break;
+          case "M0DNY":
+            merger_stations[station.id].location = " - Southampton, UK";
+            merger_stations[station.id].latitude = 50.93;
+            merger_stations[station.id].longitude = -1.39;
+            break;
+          case "F6DZP":
+            merger_stations[station.id].location = " - Migné-Auxances, FR";
+            merger_stations[station.id].latitude = 46.63;
+            merger_stations[station.id].longitude = 0.306;
+            break;
+          case "F4HHV":
+            merger_stations[station.id].location = " - Boissières, FR";
+            merger_stations[station.id].latitude = 43.77;
+            merger_stations[station.id].longitude = 4.234;
+            break;
+          case "PA3WEG":
+            merger_stations[station.id].location = " - Delft, NL";
+            merger_stations[station.id].latitude = 52.03;
+            merger_stations[station.id].longitude = 4.35;
+            break;
+          case "EI9FHB":
+            merger_stations[station.id].location = " - Bray, IE";
+            merger_stations[station.id].latitude = 53.197;
+            merger_stations[station.id].longitude = -6.11;
+            break;
+          case "SP3QFE":
+            merger_stations[station.id].location = " - Kolo, PL";
+            merger_stations[station.id].latitude = 52.2;
+            merger_stations[station.id].longitude = 18.64;
+            break;
+          case "IK1SLD":
+            merger_stations[station.id].location = " - Casale Monferrato, IT";
+            merger_stations[station.id].latitude = 45.115;
+            merger_stations[station.id].longitude = 8.452;
+            break;
+          case "OK2UUJ":
+            merger_stations[station.id].location = " - Olomouc, CZ";
+            merger_stations[station.id].latitude = 49.58;
+            merger_stations[station.id].longitude = 17.245;
+            break;
+          case "VK4KHZ":
+            merger_stations[station.id].location = " - Queensland, AUS";
+            merger_stations[station.id].latitude = -21.356;
+            merger_stations[station.id].longitude = 148.08;
+            break;
+          case "VK5ZAI":
+            merger_stations[station.id].location = " - South Australia, AUS";
+            merger_stations[station.id].latitude = -36.835;
+            merger_stations[station.id].longitude = 139.62;
+            break;
+          case "VK6MJ":
+            merger_stations[station.id].location = " - West Australia, AUS";
+            merger_stations[station.id].latitude = -32.504;
+            merger_stations[station.id].longitude = 115.49;
+            break;
+          default:
+            merger_stations[station.id].location = "";
+        }
+      }
+      
+      merger_stations[station.id].selected = false;
+
+      if(station.received > 0)
+      {
+        merger_stations[station.id].receiving = true;
+        
+        if(station.selected > 0)
+        {
+          merger_stations[station.id].selected = true;
+        }
+      }
+      else
+      {
+        merger_stations[station.id].receiving = false;
+      }
+     
+      if(tle_loaded
+         && (merger_stations[station.id].latitude != 0.0
+         || merger_stations[station.id].longitude != 0.0))
+      {
+        merger_stations[station.id].elevation = Math.round(relativeElevation(
+           [ merger_stations[station.id].latitude,
+             merger_stations[station.id].longitude], 0,
+           iss.orbit.getPosition(),
+           iss.orbit.getAltitude()*1000
+        )*10)/10;
+      }
+      else
+      {
+        merger_stations[station.id].elevation = -100;
+      } 
+    });
+
+    merger_box.empty();
+    merger_stations.forEach(function(station)
+    {
+      var station_div = $('<div></div>')
+                        .attr('class', 'station-div');
+      station_div.append($('<span></span>')
+                        .attr('id','station-callsign-'+station.id)
+                        .attr('class','station-callsign-label')
+                        .html("<b>"+station.callsign+"</b>"+station.location))
+                        .append('<br />');
+      
+      if(station.selected)
+      {
+        station_div.append($('<span></span>')
+                        .attr('id','rx_station-selecting-label-'+station.id)
+                        .attr('class','label label-success station-tag station-tag-active')
+                        .text('Prime Receiver'));
+      }
+      else
+      {
+        station_div.append($('<span></span>')
+                        .attr('id','rx_station-selecting-label-'+station.id)
+                        .attr('class','label label-default station-tag station-tag-inactive')
+                        .text('Prime Receiver'));
+      }
+
+      if(station.receiving)
+      {
+        station_div.append($('<span></span>')
+                        .attr('id','rx_station-streaming-label-'+station.id)
+                        .attr('class','label label-info station-tag station-tag-active')
+                        .text('Receiving Data'));
+      }
+      else
+      {
+        station_div.append($('<span></span>')
+                        .attr('id','rx_station-streaming-label-'+station.id)
+                        .attr('class','label label-default station-tag station-tag-inactive')
+                        .text('Receiving Data'));
+      }
+
+      if(station.elevation > 5)
+      {
+        station_div.append($('<span></span>')
+                          .attr('class', 'station-elevation-visible')
+                          .text('EL: '+station.elevation.toFixed(1)+'°'));
+      }
+      else if(station.elevation > 0)
+      {
+        station_div.append($('<span></span>')
+                          .attr('class', 'station-elevation-horizon')
+                          .text('EL: '+station.elevation.toFixed(1)+'°'));
+      }
+      else if(station.elevation > -100)
+      {
+        station_div.append($('<span></span>')
+                          .attr('class', 'station-elevation-occluded')
+                          .text('EL: '+station.elevation.toFixed(1)+'°'));
+      }
+
+      //console.log(station.callsign);
+      merger_box.append(station_div);
+    });
+
+      
+ 
+    //mx_merger.output_live = data.live;
+    //$("#tsmerge_version").text(data.version);
+    //$("#tsmerge_built").text(data.built);
+    //update_stations(data.stations);
+  }
+}
+
+var iss;
+var tle_loaded = false;
+$(function() {
+    $.ajax({
+        url:      "https://ariss.batc.tv/iss.txt",
+        type:     'GET',
+        cache:      false,
+        success: function(data, status)
+        {
+            var stations = orbits.util.parseTLE(data);
+            var i = 0;
+            for(;i < stations.length; i++)
+            {
+                if(stations[i].name == "ISS (ZARYA)") {
+                    var satOpts = {
+                        tle: stations[i],
+                        pathLength: 1,
+                      };
+                     
+                    iss = new orbits.Satellite(satOpts);  
+                    
+                    tle_loaded = true;
+                }
+            }
+        },
+        error: function()
+        {
+            console.log("TLE Error.");
+        }
+    });
+});
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-76514704-4', 'auto');
+ga('send', 'pageview');
+var gaTimer = setInterval(function() { ga('send', 'event', 'realtime', 'hamtv-page-1m'); }, 60*1000);
+setTimeout(function() { window.location.href=window.location.href; }, 6*60*60*1000);
+</script>
+</html>

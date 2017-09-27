@@ -1,0 +1,3 @@
+Sitemap: https://ariss.batc.tv/sitemap.xml
+User-agent: *
+Disallow:

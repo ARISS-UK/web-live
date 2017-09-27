@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="ARISS BATC Live Stream">
+<meta name="author" content="ARISS-UK & British Amateur Television Club">
+<link rel="icon" href="/favicon.ico">
+<title>ARISS Live Webcast</title>
+<link href="/lib/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<style>
+@font-face {
+	font-family: 'Open Sans';
+	font-style: normal;
+	font-weight: 600;
+	src:
+		local('Open Sans Semibold'),
+		local('OpenSans-Semibold'),
+		url('/fonts/Open_Sans_600.eot?#iefix') format('embedded-opentype'),
+		url('/fonts/Open_Sans_600.woff') format('woff'),
+		url('/fonts/Open_Sans_600.woff2') format('woff2'),
+		url('/fonts/Open_Sans_600.svg#OpenSans') format('svg'),
+		url('/fonts/Open_Sans_600.ttf') format('truetype');
+}
+#header-image {
+    width: 64%;
+    padding-left: 4px;
+    padding-top: 10px;
+    padding-bottom: 2px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.navbar {
+    border: 0px;
+    background-color: white;
+    margin-bottom: 0px;
+}
+@media (min-width: 768px) {
+    .navbar .navbar-nav {
+        display: inline-block;
+        float: none;
+        vertical-align: top;
+    }
+    .navbar .navbar-collapse {
+        text-align: center;
+    }
+}
+.nav {
+    padding-left: 25px;
+    padding-top: 10px;
+    color: rgba(0, 0, 0, 0.6);
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 14px;
+}
+.navbar-brand {
+    float: none;
+}
+.navbar-toggle {
+    float: left;
+    margin-left: 5px;
+    width: 90%;
+}
+.nav > li {
+    padding-right: 25px;
+}
+.nav > li > a {
+    padding: 0px;
+}
+.nav > li > a:hover {
+    color: rgba(0, 0, 0, 0.6) !important;
+    opacity: 0.7;
+    transition: all 0.4s ease-in-out;
+}
+.navbar > .navbar-collapse > .navbar-nav > li > a:focus {
+    color: rgba(0, 0, 0, 0.6);
+}
+.navbar > .navbar-collapse > .navbar-nav > li > .nav-active {
+    color: #2ea3f2 !important;
+}
+#page-background {
+    background-color: #192833;
+    padding-top: 50px;
+}
+#videochat-row {
+  padding-bottom: 10px;
+}
+#stream-player {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+#stream-player:before {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 56.25%;
+}
+#stream-player > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+#stream-stats {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    color: #FFFFFF;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+#stream-credit {
+    float: right;
+}
+#stream-bandwidth {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 100%;
+    color: #FFFFFF;
+    font-size: 90%;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-weight: bold;
+    padding-top: 15px;
+  padding-bottom: 14px;
+}
+.false-link {
+    cursor: pointer;
+}
+.info-pane {
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+  padding-top: 5px;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+.info-paragraph {
+  padding-left: 8px;
+}
+.station-elevation-visible {
+  display: inline-block;
+  font-size: 14px;
+  opacity: 1.0;
+  color: green;
+  font-weight: bold;
+}
+.station-elevation-horizon {
+  display: inline-block;
+  font-size: 14x;
+  opacity: 1.0;
+  color: orange;
+  font-weight: bold;
+}
+.station-elevation-occluded {
+  display: inline-block;
+  font-size: 14px;
+  opacity: 0.7;
+}
+#footer {
+  padding-top: 14px;
+  padding-left: 8%;
+  padding-bottom: 14px;
+  font-family: "Open Sans", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  background-color: #111B23;
+  color: #666;
+}
+#twitter-credit {
+  font-size: 10px;
+  color: grey;
+  text-align: center;
+}
+.loading {
+    height: 14px;
+    width: 14px;
+	-webkit-animation:spin 2s linear infinite;
+	-moz-animation:spin 2s linear infinite;
+	animation:spin 2s linear infinite;
+}
+.fast-loading {
+    height: 14px;
+    width: 14px;
+	-webkit-animation:spin 1s linear infinite;
+	-moz-animation:spin 1s linear infinite;
+	animation:spin 1s linear infinite;
+}
+@-moz-keyframes spin { 100% { 
+	-moz-transform:rotate(360deg); 
+	}
+}
+@-webkit-keyframes spin { 100% { 
+	-webkit-transform:rotate(360deg); 
+	}
+}
+@keyframes spin { 100% {
+	-webkit-transform:rotate(360deg);
+	transform:rotate(360deg);
+	}
+}
+svg.poster-icon {
+    display: none !important;
+}
+</style>
+</head>
+<body>
+<img id="header-image" src="/images/ariss-stream-logo.png"></img>
+
+<div class="navbar navbar-default" role="navigation">
+  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <a class="navbar-brand">Select Page</a>
+  </button>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="#" class="nav-active">Event Webcast</a></li>
+        <li><a href="/tle/">Latest TLE</a></li>
+        <li><a href="/hamtv/">HAMTV Receivers</a></li>
+        <li><a href="/goonhilly/" target="_blank">Goonhilly Dashboard</a></li>
+        <li><a href="/media/" target="_blank">Media Archive</a></li>
+        <li><a href="https://principia.ariss.org/" target="_blank">ARISS Principia</a></li>
+      </ul>
+    </div>
+</div>
+
+<div id="page-background">
+<div class="container">
+<div class="row" id="videochat-row">
+<div id="col-player" class="col-md-8">
+  <div id="stream-player"></div>
+  <div id="stream-stats"><span id="stream-stats-status">Loading..</span>&nbsp;<span id="stream-credit">Streaming provided by <a href="http://batc.tv/" target="_blank">BATC</a></span></div>
+  <div id="stream-bandwidth"></div>
+</div>
+<div class="col-md-4">
+<div class="info-pane">
+  <h4>Next ARISS Contact Webcast</h4>
+  <p class="info-paragraph">
+    <a href="http://www.ariss.org/upcoming-contacts.html" target="_blank">Standing by...</a><br>
+  </p>
+  <h4>ISS from Venue</h4>
+  <p class="info-paragraph">
+    Azimuth: <span id="venue-iss-azimuth">--.-°</span>&nbsp;&nbsp;Elevation: <span id="venue-iss-elevation">--.-°</span>
+  </p>
+</div>
+<div class="info-pane">
+<a class="twitter-timeline" href="https://twitter.com/philcrump2/lists/principia-livepage" data-widget-id="675882592768499712" data-chrome="noheader nofooter">Tweets from https://twitter.com/philcrump2/lists/principia-livepage</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+<div id="twitter-credit">Source: <a target="_blank" href="https://twitter.com/philcrump2/lists/principia-live-feed">twitter.com</a></div>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+© ARISS UK & BATC
+</div>
+</div>
+</body>
+<script src="/lib/jquery-3.2.1.min.js"></script>
+<script src="/lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+<script src="/lib/clappr-0.2.68/clappr.min.js"></script>
+<script src="/lib/batc-0.1.0.js"></script>
+<script src="/lib/orbits-1.2.1.js"></script>
+<script>
+var hlsSource = "https://hls-edge.batc.tv/hls/";
+var hlsSourceUrl = "https://beta.batc.tv/hls/sources.json";
+var streamName = "ariss";
+var posterPicture = "/images/webcast-poster.jpg";
+var posterVideo = "/images/webcast-poster.mp4";
+
+var statusHtml_connecting = "Connecting to Server...&nbsp;<img src=\""+loadingImage+"\" class=\"loading\"></img>";
+var statusText_inactive = "Connected: Stream is Inactive";
+var statusText_active = "Connected: Stream is Active";
+
+var iss;
+var tle_loaded = false;
+var venue_lat = 51.6483349;
+var venue_lon = -0.0002919;
+var venue_alt = 130;
+$(function() {
+  $.ajax({
+    url:      "https://ariss.batc.tv/iss.txt",
+    type:     'GET',
+    cache:      false,
+    success: function(data, status)
+    {
+      var stations = orbits.util.parseTLE(data);
+      var i = 0;
+      for(;i < stations.length; i++)
+      {
+        if(stations[i].name == "ISS (ZARYA)")
+        {
+          var satOpts = {
+            tle: stations[i],
+            pathLength: 1,
+          };
+          iss = new orbits.Satellite(satOpts);  
+          tle_loaded = true;
+        }
+      }
+    },
+    error: function()
+    {
+      console.log("TLE Error.");
+    }
+  });
+});
+
+
+function updateISS()
+{
+  if(tle_loaded)
+  {
+    iss.refresh();
+    var venue_iss_azimuth = Math.round(relativeAzimuth(
+      [ venue_lat, venue_lon], venue_alt,
+      iss.orbit.getPosition(), iss.orbit.getAltitude()*1000
+      )*10)/10;
+    var venue_iss_elevation = Math.round(relativeElevation(
+      [ venue_lat, venue_lon], venue_alt,
+      iss.orbit.getPosition(), iss.orbit.getAltitude()*1000
+      )*10)/10;
+    $("#venue-iss-azimuth").text(venue_iss_azimuth.toFixed(1)+'°');
+    if(venue_iss_elevation >= 10)
+    {
+      $("#venue-iss-elevation")
+        .removeClass("station-elevation-horizon")
+        .removeClass("station-elevation-occluded")
+        .addClass("station-elevation-visible")
+        .text(venue_iss_elevation.toFixed(1)+'°');
+    }
+    else if(venue_iss_elevation > 0)
+    {
+      $("#venue-iss-elevation")
+        .removeClass("station-elevation-occluded")
+        .removeClass("station-elevation-visible")
+        .addClass("station-elevation-horizon")
+        .text(venue_iss_elevation.toFixed(1)+'°');
+    }
+    else
+    {
+      $("#venue-iss-elevation")
+        .removeClass("station-elevation-visible")
+        .removeClass("station-elevation-horizon")
+        .addClass("station-elevation-occluded")
+        .text(venue_iss_elevation.toFixed(1)+'° (occluded)');
+    }
+  }
+  setTimeout(updateISS,500);
+}
+//setTimeout(updateISS,500);
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-76514704-4', 'auto');
+ga('send', 'pageview');
+var gaTimer = setInterval(function() { ga('send', 'event', 'realtime', 'webcast-page-1m'); }, 60*1000);
+setTimeout(function() { window.location.href=window.location.href; }, 6*60*60*1000);
+</script>
+</html>

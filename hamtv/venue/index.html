@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="ARISS-UK & British Amateur Television Club">
 <title>Live HAMTV Stream</title>
-<link rel="icon" href="/images/favicon.ico">
+<link rel="icon" href="/favicon.ico">
 <link href="/lib/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <style>
 @font-face {
@@ -16,11 +16,11 @@
 	src:
 		local('Open Sans Semibold'),
 		local('OpenSans-Semibold'),
-		url('fonts/Open_Sans_600.eot?#iefix') format('embedded-opentype'),
-		url('fonts/Open_Sans_600.woff') format('woff'),
-		url('fonts/Open_Sans_600.woff2') format('woff2'),
-		url('fonts/Open_Sans_600.svg#OpenSans') format('svg'),
-		url('fonts/Open_Sans_600.ttf') format('truetype');
+		url('/fonts/Open_Sans_600.eot?#iefix') format('embedded-opentype'),
+		url('/fonts/Open_Sans_600.woff') format('woff'),
+		url('/fonts/Open_Sans_600.woff2') format('woff2'),
+		url('/fonts/Open_Sans_600.svg#OpenSans') format('svg'),
+		url('/fonts/Open_Sans_600.ttf') format('truetype');
 }
 #header-image {
     width: 58%;
@@ -84,13 +84,16 @@
 .poster-icon.play {
     display: none !important;
 }
+svg.poster-icon {
+    display: none !important;
+}
 .spinner-three-bounce {
     display: none !important;
 }
 </style>
 </head>
 <body>
-<img id="header-image" src="../images/hamtv-stream-logo.png"></img>
+<img id="header-image" src="/images/hamtv-stream-logo.png"></img>
 
 <h2 style="text-align: center;">Venue Feed</h2>
 
@@ -112,9 +115,9 @@
 </body>
 <script src="/lib/jquery-3.2.1.min.js"></script>
 <script src="/lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-<script src="/lib/clappr/clappr.min.js"></script>
-<script src="/lib/clappr/rtmp/rtmp.min.js"></script>
-<script src="/lib/batc-0.1.0.js"></script>
+<script src="/lib/clappr-0.2.75/clappr.min.js"></script>
+<script src="/lib/clappr-rtmp-0.0.20/rtmp.min.js"></script>
+<script src="venue-batc.js"></script>
 <script>
 var rtmpUrl = "rtmp://beta.batc.tv:1935/event/goonhilly";
 

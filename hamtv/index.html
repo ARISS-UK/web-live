@@ -258,7 +258,6 @@ div[data-watermark] {
         <li><a href="/tle/">Latest TLE</a></li>
         <li><a href="#" class="nav-active">HAMTV Receivers</a></li>
         <li><a href="/goonhilly/" target="_blank">Goonhilly Dashboard</a></li>
-        <li><a href="/media/" target="_blank">Media Archive</a></li>
         <li><a href="https://principia.ariss.org/" target="_blank">ARISS Principia</a></li>
       </ul>
     </div>
@@ -282,8 +281,6 @@ div[data-watermark] {
 </div>
 </div>
 <div class="col-md-8 well">
-Video from past HAMTV Contacts can be found at <a href="https://ariss.batc.tv/media/" target="_blank">HAMTV Media</a>
-<br><br>
 This distributed receiver system has been built by Phil Heron MI0VIM and Phil Crump M0DNY, with support of the British Amateur Television Club.
 </div>
 </div>
@@ -294,7 +291,7 @@ This distributed receiver system has been built by Phil Heron MI0VIM and Phil Cr
 </body>
 <script src="/lib/jquery-3.2.1.min.js"></script>
 <script src="/lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-<script src="/lib/clappr-0.2.68/clappr.min.js"></script>
+<script src="/lib/clappr-0.2.75/clappr.min.js"></script>
 <script src="/lib/batc-0.1.0.js"></script>
 <script src="/lib/orbits-1.2.1.js"></script>
 <script>
@@ -302,8 +299,8 @@ var hlsSource = "https://hls-edge.batc.tv/hls";
 var hlsSourceUrl = "https://beta.batc.tv/hls/sources.json";
 var streamName = "goonhilly";
 //var streamName = "FAKEFAKE";
-var posterPicture = "images/poster.jpg";
-var posterVideo = "images/poster.mp4";
+var posterPicture = "/images/poster.jpg";
+var posterVideo = "/images/poster.mp4";
 var statusHtml_connecting = "Connecting to Server...&nbsp;<img src=\""+loadingImage+"\" class=\"loading\"></img>";
 var statusText_inactive = "Standing by for HAMTV..";
 var statusText_active = "HAMTV is live!";
@@ -473,6 +470,11 @@ function updateStations(jdata)
             merger_stations[station.id].location = " - West Australia, AUS";
             merger_stations[station.id].latitude = -32.504;
             merger_stations[station.id].longitude = 115.49;
+            break;
+          case "G8GTZ":
+            merger_stations[station.id].location = " - Basingstoke, UK";
+            merger_stations[station.id].latitude = 51.243;
+            merger_stations[station.id].longitude = -1.144;
             break;
           default:
             merger_stations[station.id].location = "";

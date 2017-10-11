@@ -105,7 +105,7 @@ function createPlayer()
          plugins: {'playback': [RTMP]},
          playbackNotSupportedMessage: 'Video stream playback not supported.<br>Please install Adobe Flash Player or try a different browser.',
          rtmpConfig: {
-             swfPath: 'libs/clappr/rtmp/assets/RTMP.swf',
+             swfPath: '/lib/clappr-0.2.68/rtmp/assets/RTMP.swf',
              playbackType: 'live',
              scaling:'stretch',
              bufferTime: 0.5,

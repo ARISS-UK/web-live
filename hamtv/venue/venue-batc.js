@@ -105,11 +105,10 @@ function createPlayer()
          plugins: {'playback': [RTMP]},
          playbackNotSupportedMessage: 'Video stream playback not supported.<br>Please install Adobe Flash Player or try a different browser.',
          rtmpConfig: {
-             swfPath: '/lib/clappr-0.2.68/rtmp/assets/RTMP.swf',
+             swfPath: '/lib/clappr-rtmp-0.0.20/assets/RTMP.swf',
              playbackType: 'live',
              scaling:'stretch',
              bufferTime: 0.5,
-             //startLevel: 0,
             width: '100%',
             height: '100%',
          },
@@ -122,11 +121,4 @@ function createPlayer()
     player.attachTo(playerElement);
      
      $("#stream-stats").width("634");
-
-    player.on(Clappr.Events.PLAYER_PLAY, function() {
-      console.log("Play2");
-    });
-    player.on(Clappr.Events.PLAYBACK_TIMEUPDATE, function() {
-      console.log("Stop");
-    });
 }

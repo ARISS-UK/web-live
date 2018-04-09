@@ -1,0 +1,48 @@
+@font-face {
+        font-family: 'Open Sans';
+        font-style: normal;
+        font-weight: 600;
+        src:
+                local('Open Sans Semibold'),
+                local('OpenSans-Semibold'),
+                url('/fonts/Open_Sans_600.eot?#iefix') format('embedded-opentype'),
+                url('/fonts/Open_Sans_600.woff') format('woff'),
+                url('/fonts/Open_Sans_600.woff2') format('woff2'),
+                url('/fonts/Open_Sans_600.svg#OpenSans') format('svg'),
+                url('/fonts/Open_Sans_600.ttf') format('truetype');
+}
+#header-image {
+    width: 64%;
+    padding-left: 4px;
+    padding-top: 10px;
+    padding-bottom: 2px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+.navbar {
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 14px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+@media (min-width: 768px) {
+    .navbar > .navbar-collapse > .navbar-nav {
+        display: inline-block;
+        float: none;
+        margin: 0 auto;
+    }
+}
+.navbar > .navbar-collapse > .navbar-nav > .nav-item {
+    display: inline-block;
+    padding-top: 10px;
+    padding-right: 25px;
+}
+.navbar > .navbar-collapse > .navbar-nav > .active {
+    color: #2ea3f2;
+}
+#page-background {
+    background-color: #192833;
+    padding-top: 30px;
+}

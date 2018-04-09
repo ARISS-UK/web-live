@@ -1,7 +1,7 @@
 /* BATC Player JS */
 /* Requires jquery and clappr */
 
-var ws_url = "wss://hamtv.batc.tv/tsmerger-ws/";
+var ws_url = "wss://ariss.batc.tv/tsmerger-ws/";
 var ws_sock = null;
 var ws_reconnect = null;
 
@@ -41,8 +41,11 @@ function ws_connect()
 
       ws_sock.onclose = function()
       {
-        ws_sock.close();
-        ws_sock = null;
+        if(ws_sock != null)
+        {
+          ws_sock.close();
+          ws_sock = null;
+        }
 
         if(!ws_reconnect)
         {

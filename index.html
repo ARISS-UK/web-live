@@ -8,82 +8,9 @@
 <meta name="author" content="ARISS-UK & British Amateur Television Club">
 <link rel="icon" href="/favicon.ico">
 <title>ARISS Live Webcast</title>
-<link href="/lib/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link href="/lib/bootstrap-4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="/lib/ariss.css" rel="stylesheet">
 <style>
-@font-face {
-	font-family: 'Open Sans';
-	font-style: normal;
-	font-weight: 600;
-	src:
-		local('Open Sans Semibold'),
-		local('OpenSans-Semibold'),
-		url('/fonts/Open_Sans_600.eot?#iefix') format('embedded-opentype'),
-		url('/fonts/Open_Sans_600.woff') format('woff'),
-		url('/fonts/Open_Sans_600.woff2') format('woff2'),
-		url('/fonts/Open_Sans_600.svg#OpenSans') format('svg'),
-		url('/fonts/Open_Sans_600.ttf') format('truetype');
-}
-#header-image {
-    width: 64%;
-    padding-left: 4px;
-    padding-top: 10px;
-    padding-bottom: 2px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-.navbar {
-    border: 0px;
-    background-color: white;
-    margin-bottom: 0px;
-}
-@media (min-width: 768px) {
-    .navbar .navbar-nav {
-        display: inline-block;
-        float: none;
-        vertical-align: top;
-    }
-    .navbar .navbar-collapse {
-        text-align: center;
-    }
-}
-.nav {
-    padding-left: 25px;
-    padding-top: 10px;
-    color: rgba(0, 0, 0, 0.6);
-    font-family: "Open Sans", Arial, sans-serif;
-    font-size: 14px;
-    line-height: 14px;
-}
-.navbar-brand {
-    float: none;
-}
-.navbar-toggle {
-    float: left;
-    margin-left: 5px;
-    width: 90%;
-}
-.nav > li {
-    padding-right: 25px;
-}
-.nav > li > a {
-    padding: 0px;
-}
-.nav > li > a:hover {
-    color: rgba(0, 0, 0, 0.6) !important;
-    opacity: 0.7;
-    transition: all 0.4s ease-in-out;
-}
-.navbar > .navbar-collapse > .navbar-nav > li > a:focus {
-    color: rgba(0, 0, 0, 0.6);
-}
-.navbar > .navbar-collapse > .navbar-nav > li > .nav-active {
-    color: #2ea3f2 !important;
-}
-#page-background {
-    background-color: #192833;
-    padding-top: 50px;
-}
 #videochat-row {
   padding-bottom: 10px;
 }
@@ -112,6 +39,7 @@
     color: #FFFFFF;
     font-family: "Open Sans", Arial, sans-serif;
     font-weight: bold;
+    font-size: 14px;
     margin-bottom: 10px;
     padding-left: 3px;
     padding-right: 3px;
@@ -135,20 +63,27 @@
     cursor: pointer;
 }
 .info-pane {
+  font-size: 95%;
   width: 100%;
   background-color: white;
   border-radius: 10px;
   padding: 15px;
-  padding-top: 5px;
+  padding-top: 7px;
   padding-bottom: 8px;
   margin-bottom: 8px;
 }
+.info-paragraph-top {
+  margin-top: 4px;
+  padding-left: 5px;
+  margin-bottom: 12px;
+}
 .info-paragraph {
   padding-left: 8px;
+  margin-bottom: 18px;
 }
 .station-elevation-visible {
   display: inline-block;
-  font-size: 14px;
+  /*font-size: 14px;*/
   opacity: 1.0;
   color: green;
   font-weight: bold;
@@ -162,7 +97,7 @@
 }
 .station-elevation-occluded {
   display: inline-block;
-  font-size: 14px;
+  /*font-size: 14px;*/
   opacity: 0.7;
 }
 #footer {
@@ -215,22 +150,18 @@ svg.poster-icon {
 <body>
 <img id="header-image" src="/images/ariss-stream-logo.png"></img>
 
-<div class="navbar navbar-default" role="navigation">
-  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-    <span class="sr-only">Toggle navigation</span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <a class="navbar-brand">Select Page</a>
+<div class="navbar navbar-light navbar-expand-lg" role="navigation">
+  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+    <span class="navbar-toggler-icon"></span>
   </button>
     <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="#" class="nav-active">Event Webcast</a></li>
-        <li><a href="/tle/">Latest TLE</a></li>
-        <li><a href="/hamtv/">HAMTV Receivers</a></li>
-        <li><a href="/goonhilly/" target="_blank">Goonhilly Dashboard</a></li>
-        <li><a href="https://principia.ariss.org/" target="_blank">ARISS Principia</a></li>
-      </ul>
+      <div class="navbar-nav">
+        <a href="#" class="nav-item nav-link active">Event Webcast</a>
+        <a href="/tle/" class="nav-item nav-link">Latest TLE</a>
+        <a href="/hamtv/" class="nav-item nav-link">HAMTV Receivers</a>
+        <a href="/goonhilly/" class="nav-item nav-link" target="_blank">Goonhilly Dashboard</a>
+        <a href="https://principia.ariss.org/" class="nav-item nav-link" target="_blank">ARISS Principia</a>
+      </div>
     </div>
 </div>
 
@@ -244,19 +175,30 @@ svg.poster-icon {
 </div>
 <div class="col-md-4">
 <div class="info-pane">
-  <h4>Next ARISS Contact Webcast</h4>
-  <p class="info-paragraph">
-    <a href="http://www.ariss.org/upcoming-contacts.html" target="_blank">Standing by...</a><br>
+  <p class="info-paragraph-top">
+   Live Contact via Amateur Radio between students, and astronauts on the International Space Station.
   </p>
-  <h4>ISS from Venue</h4>
+  <h5>King's High School, Warwick, UK</h5>
   <p class="info-paragraph">
-    Azimuth: <span id="venue-iss-azimuth">--.-°</span>&nbsp;&nbsp;Elevation: <span id="venue-iss-elevation">--.-°</span>
+    12:05 UTC, Thurs 19/04/2018<br>
+    Further Details TBC.
   </p>
-</div>
-<div class="info-pane">
-<a class="twitter-timeline" href="https://twitter.com/philcrump2/lists/principia-livepage" data-widget-id="675882592768499712" data-chrome="noheader nofooter">Tweets from https://twitter.com/philcrump2/lists/principia-livepage</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-<div id="twitter-credit">Source: <a target="_blank" href="https://twitter.com/philcrump2/lists/principia-live-feed">twitter.com</a></div>
+  <h5>ISS Position - <a href="/goonhilly/" target="_blank">Live Map</a></h5>
+  <p class="info-paragraph">
+    Distance from Warwick: <span id="venue-iss-range">--km</span><br>
+    - Direction: <span id="venue-iss-azimuth">--.-°</span><br>
+    - Elevation: <span id="venue-iss-elevation">--.-°</span><br>
+    - <span id="venue-iss-nextpass-label">Next pass</span>: <span id="venue-iss-nextpass">--:--:--</span>
+  </p>
+  <p>
+  Amateur Radio on the International Space Station: <a href="http://www.ariss.org/" target="_blank">ariss.org</a>
+  </p>
+  <p>
+  Follow on twitter: <a href="https://twitter.com/ARISS_status" target="_blank">@ARISS_status</a>
+  </p>
+  <p>
+  Get your school involved: <a href="http://www.ariss.org/apply-to-host-an-ariss-contact.html" target="_blank">hosting an ARISS contact</a>
+  </p>
 </div>
 </div>
 </div>
@@ -266,15 +208,19 @@ svg.poster-icon {
 </div>
 </div>
 </body>
-<script src="/lib/jquery-3.2.1.min.js"></script>
-<script src="/lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-<script src="/lib/clappr-0.2.75/clappr.min.js"></script>
+<script src="/lib/jquery-3.3.1.min.js"></script>
+<script src="/lib/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+<script src="/lib/clappr-0.2.85/clappr.min.js"></script>
 <script src="/lib/batc-0.1.0.js"></script>
 <script src="/lib/orbits-1.2.1.js"></script>
 <script>
-var hlsSource = "https://hls-edge.batc.tv/hls/";
-var hlsSourceUrl = "https://beta.batc.tv/hls/sources.json";
-var streamName = "ariss";
+var hlsSource = "https://ariss.batc.tv/hls";
+var hlsSourceUrl = "https://ariss.batc.tv/404";
+var streamName = "event";
+if('test' in parse_query_string(window.location.search.substring(1)))
+{
+  streamName = "event-test";
+}
 var posterPicture = "/images/webcast-poster.jpg";
 var posterVideo = "/images/webcast-poster.mp4";
 
@@ -284,9 +230,11 @@ var statusText_active = "Connected: Stream is Active";
 
 var iss;
 var tle_loaded = false;
-var venue_lat = 51.6483349;
-var venue_lon = -0.0002919;
-var venue_alt = 130;
+var next_aos = null;
+var next_los = null;
+var venue_lat = 52.28;
+var venue_lon = -1.586;
+var venue_alt = 100;
 $(function() {
   $.ajax({
     url:      "https://ariss.batc.tv/iss.txt",
@@ -304,8 +252,10 @@ $(function() {
             tle: stations[i],
             pathLength: 1,
           };
-          iss = new orbits.Satellite(satOpts);  
+          iss = new orbits.Satellite(satOpts);
+          future_iss = new orbits.Satellite(satOpts);   
           tle_loaded = true;
+          setTimeout(updateISS,50);
         }
       }
     },
@@ -316,12 +266,12 @@ $(function() {
   });
 });
 
-
 function updateISS()
 {
   if(tle_loaded)
   {
     iss.refresh();
+    var venue_iss_range = Math.round((latlonRange([venue_lat, venue_lon],venue_alt,iss.orbit.getPosition(),iss.orbit.getAltitude()*1000))/1000);
     var venue_iss_azimuth = Math.round(relativeAzimuth(
       [ venue_lat, venue_lon], venue_alt,
       iss.orbit.getPosition(), iss.orbit.getAltitude()*1000
@@ -330,7 +280,8 @@ function updateISS()
       [ venue_lat, venue_lon], venue_alt,
       iss.orbit.getPosition(), iss.orbit.getAltitude()*1000
       )*10)/10;
-    $("#venue-iss-azimuth").text(venue_iss_azimuth.toFixed(1)+'°');
+    $("#venue-iss-range").text(venue_iss_range.toFixed(0)+'km');
+    $("#venue-iss-azimuth").text(venue_iss_azimuth.toFixed(1)+'° ('+compass(venue_iss_azimuth)+')');
     if(venue_iss_elevation >= 10)
     {
       $("#venue-iss-elevation")
@@ -338,6 +289,13 @@ function updateISS()
         .removeClass("station-elevation-occluded")
         .addClass("station-elevation-visible")
         .text(venue_iss_elevation.toFixed(1)+'°');
+      if(next_los == null)
+      {
+          next_los = findLos([venue_lat, venue_lon],venue_alt,0);
+          $("#venue-iss-nextpass-label").text("End of pass");
+      }
+      $("#venue-iss-nextpass").text("-" + countdownTimeString(next_los));
+      next_aos = null;
     }
     else if(venue_iss_elevation > 0)
     {
@@ -346,6 +304,13 @@ function updateISS()
         .removeClass("station-elevation-visible")
         .addClass("station-elevation-horizon")
         .text(venue_iss_elevation.toFixed(1)+'°');
+      if(next_los == null)
+      {
+          next_los = findLos([venue_lat, venue_lon],venue_alt,0);
+          $("#venue-iss-nextpass-label").text("End of pass");
+      }
+      $("#venue-iss-nextpass").text("-" + countdownTimeString(next_los));
+      next_aos = null;
     }
     else
     {
@@ -353,13 +318,91 @@ function updateISS()
         .removeClass("station-elevation-visible")
         .removeClass("station-elevation-horizon")
         .addClass("station-elevation-occluded")
-        .text(venue_iss_elevation.toFixed(1)+'° (occluded)');
+        .text(venue_iss_elevation.toFixed(1)+'° (below horizon)');
+      if(next_aos == null)
+      {
+          next_aos = findAos([venue_lat, venue_lon],venue_alt,0);
+          $("#venue-iss-nextpass-label").text("Next pass");
+      }
+      $("#venue-iss-nextpass").text("-" + countdownTimeString(next_aos));
+      next_los = null;
+    }
+    setTimeout(updateISS,1000);
+  }
+  else
+  {
+    setTimeout(updateISS,50);
+  }
+}
+
+function parse_query_string(query) {
+  var vars = query.split("&");
+  var query_string = {};
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split("=");
+    if (typeof query_string[pair[0]] === "undefined") {
+      query_string[pair[0]] = decodeURIComponent(pair[1]);
+    } else if (typeof query_string[pair[0]] === "string") {
+      var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+      query_string[pair[0]] = arr;
+    } else {
+      query_string[pair[0]].push(decodeURIComponent(pair[1]));
     }
   }
-  setTimeout(updateISS,500);
+  return query_string;
 }
-//setTimeout(updateISS,500);
+function compass(angle)
+{
+  var degree = 360 / 16;
+  angle = angle + degree/2;
+        
+  if(angle >= 0 * degree && angle < 1 * degree)
+    return "N";
+  if(angle >= 1 * degree && angle < 2 * degree)
+    return "NNE";
+  if(angle >= 2 * degree && angle < 3 * degree)
+    return "NE";
+  if(angle >= 3 * degree && angle < 4 * degree)
+    return "ENE";
+  if(angle >= 4 * degree && angle < 5 * degree)
+    return "E";
+  if(angle >= 5 * degree && angle < 6 * degree)
+    return "ESE";
+  if(angle >= 6 * degree && angle < 7 * degree)
+    return "SE";
+  if(angle >= 7 * degree && angle < 8 * degree)
+    return "SSE";
+  if(angle >= 8 * degree && angle < 9 * degree)
+    return "S";
+  if(angle >= 9 * degree && angle < 10 * degree)
+    return "SSW";
+  if(angle >= 10 * degree && angle < 11 * degree)
+    return "SW";
+  if(angle >= 11 * degree && angle < 12 * degree)
+    return "WSW";
+  if(angle >= 12 * degree && angle < 13 * degree)
+    return "W";
+  if(angle >= 13 * degree && angle < 14 * degree)
+    return "WNW";
+  if(angle >= 14 * degree && angle < 15 * degree)
+    return "NW";
+  if(angle >= 15 * degree && angle < 16 * degree)
+    return "NNW";
+  return "N";
+}
 
+function countdownTimeString(aosTime) {
+    var now = new Date();
+    var d = new Date(now.getTime());
+    var diff = aosTime.getTime() - d.getTime();
+    var diff_as_date = new Date(diff);
+    return pad(diff_as_date.getUTCHours(),2) + ":" + pad(diff_as_date.getUTCMinutes(),2) + ":" + pad(diff_as_date.getUTCSeconds(),2);
+}
+function pad(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)

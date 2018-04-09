@@ -8,82 +8,9 @@
 <meta name="author" content="ARISS-UK & British Amateur Television Club">
 <link rel="icon" href="/favicon.ico">
 <title>ARISS HAMTV</title>
-<link href="/lib/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link href="/lib/bootstrap-4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="/lib/ariss.css" rel="stylesheet">
 <style>
-@font-face {
-	font-family: 'Open Sans';
-	font-style: normal;
-	font-weight: 600;
-	src:
-		local('Open Sans Semibold'),
-		local('OpenSans-Semibold'),
-		url('/fonts/Open_Sans_600.eot?#iefix') format('embedded-opentype'),
-		url('/fonts/Open_Sans_600.woff') format('woff'),
-		url('/fonts/Open_Sans_600.woff2') format('woff2'),
-		url('/fonts/Open_Sans_600.svg#OpenSans') format('svg'),
-		url('/fonts/Open_Sans_600.ttf') format('truetype');
-}
-#header-image {
-    width: 64%;
-    padding-left: 4px;
-    padding-top: 10px;
-    padding-bottom: 2px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-.navbar {
-    border: 0px;
-    background-color: white;
-    margin-bottom: 0px;
-}
-@media (min-width: 768px) {
-    .navbar .navbar-nav {
-        display: inline-block;
-        float: none;
-        vertical-align: top;
-    }
-    .navbar .navbar-collapse {
-        text-align: center;
-    }
-}
-.nav {
-    padding-left: 25px;
-    padding-top: 10px;
-    color: rgba(0, 0, 0, 0.6);
-    font-family: "Open Sans", Arial, sans-serif;
-    font-size: 14px;
-    line-height: 14px;
-}
-.navbar-brand {
-    float: none;
-}
-.navbar-toggle {
-    float: left;
-    margin-left: 5px;
-    width: 90%;
-}
-.nav > li {
-    padding-right: 25px;
-}
-.nav > li > a {
-    padding: 0px;
-}
-.nav > li > a:hover {
-    color: rgba(0, 0, 0, 0.6) !important;
-    opacity: 0.7;
-    transition: all 0.4s ease-in-out;
-}
-.navbar > .navbar-collapse > .navbar-nav > li > a:focus {
-    color: rgba(0, 0, 0, 0.6);
-}
-.navbar > .navbar-collapse > .navbar-nav > li > .nav-active {
-    color: #2ea3f2 !important;
-}
-#page-background {
-    background-color: #192833;
-    padding-top: 50px;
-}
 #videochat-row {
   padding-bottom: 10px;
 }
@@ -143,6 +70,7 @@
 }
 #twitter-frame {
   width: 100%;
+  font-size: 90%;
   text-align: center;
   background-color: white;
   border-radius: 15px;
@@ -159,7 +87,7 @@
   margin-bottom: 10px;
 }
 .station-div {
-  margin-top: 14px;
+  margin-top: 8px;
 }
 .station-tag {
   display: inline;
@@ -245,22 +173,18 @@ div[data-watermark] {
 <body>
 <img id="header-image" src="/images/ariss-stream-logo.png"></img>
 
-<div class="navbar navbar-default" role="navigation">
-  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-    <span class="sr-only">Toggle navigation</span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <span class="icon-bar"></span>
-    <a class="navbar-brand">Select Page</a>
+<div class="navbar navbar-light navbar-expand-lg" role="navigation">
+  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+    <span class="navbar-toggler-icon"></span>
   </button>
     <div class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="/">Event Webcast</a></li>
-        <li><a href="/tle/">Latest TLE</a></li>
-        <li><a href="#" class="nav-active">HAMTV Receivers</a></li>
-        <li><a href="/goonhilly/" target="_blank">Goonhilly Dashboard</a></li>
-        <li><a href="https://principia.ariss.org/" target="_blank">ARISS Principia</a></li>
-      </ul>
+      <div class="navbar-nav">
+        <a href="/" class="nav-item nav-link">Event Webcast</a>
+        <a href="/tle/" class="nav-item nav-link">Latest TLE</a>
+        <a href="#" class="nav-item nav-link active">HAMTV Receivers</a>
+        <a href="/goonhilly/" class="nav-item nav-link" target="_blank">Goonhilly Dashboard</a>
+        <a href="https://principia.ariss.org/" class="nav-item nav-link" target="_blank">ARISS Principia</a>
+      </div>
     </div>
 </div>
 
@@ -272,13 +196,15 @@ div[data-watermark] {
   <div id="stream-player"></div>
   <div id="stream-stats"><span id="stream-stats-status">Loading..</span>&nbsp;<span id="stream-credit">Streaming provided by <a href="http://batc.tv/" target="_blank">BATC</a></span></div>
   <div id="stream-bandwidth"></div>
-  <div class="well">
-This distributed receiver system has been built by Phil Heron MI0VIM and Phil Crump M0DNY, with support of the British Amateur Television Club.
+  <div class="card card-body bg-light">
+    <p class="card-text">This distributed receiver system has been built by Phil Heron MI0VIM and Phil Crump M0DNY, with support of the British Amateur Television Club.</p>
+    <p class="card-text">For more information, visit #ariss on freenode IRC (<a class="card-link" href="http://webchat.freenode.net/?channels=#ariss" target="_blank">webchat link</a>)</p>
   </div>
  </div>
  <div class="col-md-4">
   <div id="twitter-frame">
    <h3 id="stations_title">HAMTV Receiver Stations</h3>
+   <a href="europe.jpg" target="_blank">Europe</a> - <a href="australia.jpg" target="_blank">Australia</a> - <a href="japan.jpg" target="_blank">Japan</a>
    <div id="merger_stations_div">
    </div>
   </div>
@@ -290,15 +216,15 @@ This distributed receiver system has been built by Phil Heron MI0VIM and Phil Cr
 </div>
 </div>
 </body>
-<script src="/lib/jquery-3.2.1.min.js"></script>
-<script src="/lib/bootstrap-3.3.7/js/bootstrap.min.js"></script>
-<script src="/lib/clappr-0.2.75/clappr.min.js"></script>
+<script src="/lib/jquery-3.3.1.min.js"></script>
+<script src="/lib/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+<script src="/lib/clappr-0.2.85/clappr.min.js"></script>
 <script src="/lib/batc-0.1.0.js"></script>
 <script src="/lib/orbits-1.2.1.js"></script>
 <script>
-var hlsSource = "https://hls-edge.batc.tv/hls";
-var hlsSourceUrl = "https://beta.batc.tv/hls/sources.json";
-var streamName = "goonhilly";
+var hlsSource = "/hls";
+var hlsSourceUrl = "https://hls.batc.org.uk/NONE";
+var streamName = "hamtv";
 //var streamName = "FAKEFAKE";
 var posterPicture = "/images/poster.jpg";
 var posterVideo = "/images/poster.mp4";
@@ -307,7 +233,7 @@ var statusText_inactive = "Standing by for HAMTV..";
 var statusText_active = "HAMTV is live!";
 
 var merger_box = $('#merger_stations_div');
-var merger_stations = [];// = [null, null, null, null, null, null, null, null];
+var merger_stations = [];
 
 var ws_url = "wss://ariss.batc.tv/tsmerger-ws/";
 var ws_sock = null;
@@ -408,93 +334,10 @@ function updateStations(jdata)
       {
         merger_stations[station.id] = {};
         merger_stations[station.id].callsign = station.callsign;
-        //merger_stations[station.id].enabled = station.enabled;
-
-        switch(station.callsign)
-        {
-          case "GOONHILLY":
-            merger_stations[station.id].location = " - Cornwall, UK";
-            merger_stations[station.id].latitude = 50.049;
-            merger_stations[station.id].longitude = -5.183;
-            break;
-          case "M0DNY":
-            merger_stations[station.id].location = " - Southampton, UK";
-            merger_stations[station.id].latitude = 50.93;
-            merger_stations[station.id].longitude = -1.39;
-            break;
-          case "F6DZP":
-            merger_stations[station.id].location = " - Migné-Auxances, FR";
-            merger_stations[station.id].latitude = 46.63;
-            merger_stations[station.id].longitude = 0.306;
-            break;
-          case "F4HHV":
-            merger_stations[station.id].location = " - Boissières, FR";
-            merger_stations[station.id].latitude = 43.77;
-            merger_stations[station.id].longitude = 4.234;
-            break;
-          case "PA3WEG":
-            merger_stations[station.id].location = " - Delft, NL";
-            merger_stations[station.id].latitude = 52.03;
-            merger_stations[station.id].longitude = 4.35;
-            break;
-          case "EI9FHB":
-            merger_stations[station.id].location = " - Bray, IE";
-            merger_stations[station.id].latitude = 53.197;
-            merger_stations[station.id].longitude = -6.11;
-            break;
-          case "SP3QFE":
-            merger_stations[station.id].location = " - Kolo, PL";
-            merger_stations[station.id].latitude = 52.2;
-            merger_stations[station.id].longitude = 18.64;
-            break;
-          case "IK1SLD":
-            merger_stations[station.id].location = " - Casale Monferrato, IT";
-            merger_stations[station.id].latitude = 45.115;
-            merger_stations[station.id].longitude = 8.452;
-            break;
-          case "OK2UUJ":
-            merger_stations[station.id].location = " - Olomouc, CZ";
-            merger_stations[station.id].latitude = 49.58;
-            merger_stations[station.id].longitude = 17.245;
-            break;
-          case "VK4KHZ":
-            merger_stations[station.id].location = " - Queensland, AUS";
-            merger_stations[station.id].latitude = -21.356;
-            merger_stations[station.id].longitude = 148.08;
-            break;
-          case "VK5ZAI":
-            merger_stations[station.id].location = " - South Australia, AUS";
-            merger_stations[station.id].latitude = -36.835;
-            merger_stations[station.id].longitude = 139.62;
-            break;
-          case "VK6MJ":
-            merger_stations[station.id].location = " - West Australia, AUS";
-            merger_stations[station.id].latitude = -32.504;
-            merger_stations[station.id].longitude = 115.49;
-            break;
-          case "G8GTZ":
-            merger_stations[station.id].location = " - Basingstoke, UK";
-            merger_stations[station.id].latitude = 51.243;
-            merger_stations[station.id].longitude = -1.144;
-            break;
-          case "7M3TJZ":
-            merger_stations[station.id].location = " - Saitama, JP";
-            merger_stations[station.id].latitude = 35.879;
-            merger_stations[station.id].longitude = 139.374;
-            break;
-          case "M0EYT":
-            merger_stations[station.id].location = " - Dorset, UK";
-            merger_stations[station.id].latitude = 50.7;
-            merger_stations[station.id].longitude = -2.0;
-            break;
-          case "VK5EI":
-            merger_stations[station.id].location = " - Adelaide, AUS";
-            merger_stations[station.id].latitude = -34.85;
-            merger_stations[station.id].longitude = 138.54;
-            break;
-          default:
-            merger_stations[station.id].location = "";
-        }
+        
+        merger_stations[station.id].latitude = station.latitude;
+        merger_stations[station.id].longitude = station.longitude;
+        merger_stations[station.id].location = station.location;
       }
       
       merger_stations[station.id].selected = false;
@@ -502,7 +345,7 @@ function updateStations(jdata)
       if(station.received > 0)
       {
         merger_stations[station.id].receiving = true;
-        merger_stations[station.id].receiving_rate = (station.received * 188 * 5)/1000; // kbps
+        merger_stations[station.id].receiving_rate = (station.received * 188 * 8)/1000; // kbps
         
         if(station.selected > 0)
         {
@@ -539,21 +382,21 @@ function updateStations(jdata)
       station_div.append($('<span></span>')
                         .attr('id','station-callsign-'+station.id)
                         .attr('class','station-callsign-label')
-                        .html("<b>"+station.callsign+"</b>"+station.location))
+                        .html("<b>"+station.callsign+"</b> - "+station.location))
                         .append('<br />');
       
       if(station.selected)
       {
         station_div.append($('<span></span>')
                         .attr('id','rx_station-selecting-label-'+station.id)
-                        .attr('class','label label-success station-tag station-tag-active')
+                        .attr('class','badge badge-success station-tag station-tag-active')
                         .text('Prime Receiver'));
       }
       else
       {
         station_div.append($('<span></span>')
                         .attr('id','rx_station-selecting-label-'+station.id)
-                        .attr('class','label label-default station-tag station-tag-inactive')
+                        .attr('class','badge badge-light station-tag station-tag-inactive')
                         .text('Prime Receiver'));
       }
 
@@ -561,15 +404,15 @@ function updateStations(jdata)
       {
         station_div.append($('<span></span>')
                         .attr('id','rx_station-streaming-label-'+station.id)
-                        .attr('class','label label-info station-tag station-tag-active')
-                        .text('Rate: '+padL('       ',String(station.receiving_rate))+'kbps'));
+                        .attr('class','badge badge-info station-tag station-tag-active')
+                        .text('Rate: '+padL('        ',station.receiving_rate.toFixed(2))+'kbps'));
       }
       else
       {
         station_div.append($('<span></span>')
                         .attr('id','rx_station-streaming-label-'+station.id)
-                        .attr('class','label label-default station-tag station-tag-inactive')
-                        .text('Rate: '+padL('       ','0')+'kbps'));
+                        .attr('class','badge badge-light station-tag station-tag-inactive')
+                        .text('Rate: '+padL('        ','0.00')+'kbps'));
       }
 
       if(station.elevation > 5)

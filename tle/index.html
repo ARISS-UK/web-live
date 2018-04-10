@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="ISS TLE Viewer">
-<meta name="author" content="ARISS Principia & British Amateur Television Club">
-<meta name="keywords" content="">
-<link rel="icon" href="/favicon.ico">
 <title>ARISS TLE</title>
-<link href="/lib/bootstrap-4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<meta name="description" content="Latest ISS TLE">
+<link rel="icon" type="image/png" href="/images/ariss_logo_32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/ariss_logo_64x64.png" sizes="64x64">
+<link rel="icon" type="image/png" href="/images/ariss_logo_128x128.png" sizes="128x128">
+<link rel="icon" type="image/png" href="/images/ariss_logo_192x192.png" sizes="192x192">
+<link href="/lib/bootstrap-4.1.0/css/bootstrap.min.css" rel="stylesheet">
 <link href="/lib/ariss.css" rel="stylesheet">
 <style>
 body {
@@ -50,7 +51,7 @@ td {
 </style>
 </head>
 <body>
-<img id="header-image" src="/images/ariss-stream-logo.png"></img>
+<img id="header-image" src="/images/ariss-org-header.png"></img>
 
 <div class="navbar navbar-light navbar-expand-lg" role="navigation">
   <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
@@ -58,11 +59,10 @@ td {
   </button>
     <div class="navbar-collapse collapse">
       <div class="navbar-nav">
-        <a href="/" class="nav-item nav-link">Event Webcast</a>
-        <a href="#" class="nav-item nav-link active">Latest TLE</a>
+        <a href="/" class="nav-item nav-link">Live Webcast</a>
+        <a href="/dashboard/" class="nav-item nav-link" target="_blank">ISS Dashboard</a>
         <a href="/hamtv/" class="nav-item nav-link">HAMTV Receivers</a>
-        <a href="/goonhilly/" class="nav-item nav-link" target="_blank">Goonhilly Dashboard</a>
-        <a href="https://principia.ariss.org/" class="nav-item nav-link" target="_blank">ARISS Principia</a>
+        <a href="#" class="nav-item nav-link active">ISS TLE</a>
       </div>
     </div>
 </div>
@@ -81,7 +81,7 @@ td {
       <td>TLE Epoch:&nbsp;</td><td id="iss-data-epoch"></td>
     </tr>
     <tr>
-      <td>Raw Link:&nbsp;</td><td><a href="http://ariss.batc.tv/iss.txt" target="_blank">http://ariss.batc.tv/iss.txt</a></td>
+      <td>Raw Link:&nbsp;</td><td><a href="http://live.ariss.org/iss.txt" target="_blank">http://live.ariss.org/iss.txt</a></td>
     </tr>
     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
     <tr><td colspan="2"><h4><b>Calculated Goonhilly Data</b></h4></td></tr>
@@ -103,12 +103,12 @@ td {
 </div>
 </div>
 <div id="footer">
-© ARISS UK & BATC
+© ARISS
 </div>
 </div>
 </body>
 <script src="/lib/jquery-3.3.1.min.js"></script>
-<script src="/lib/bootstrap-4.0.0/js/bootstrap.min.js"></script>
+<script src="/lib/bootstrap-4.1.0/js/bootstrap.min.js"></script>
 <script src="/lib/orbits-1.2.1.js"></script>
 <script>
 /*** Phil's Satellite Code ***/
@@ -160,7 +160,7 @@ function updateISSData()
 function page_run()
 {
 	$.ajax({
-	    url:      "https://ariss.batc.tv/iss.txt",
+	    url:      "/iss.txt",
 	    type:     'GET',
 	    cache:      false,
 	    success: function(data, status, xhr)
@@ -226,13 +226,11 @@ function convertDateToUTC(date) {
   return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
 }
 
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-76514704-4', 'auto');
-ga('send', 'pageview');
-var gaTimer = setInterval(function() { ga('send', 'event', 'realtime', 'tle-page-1m'); }, 60*1000);
-setTimeout(function() { window.location.href=window.location.href; }, 6*60*60*1000);
+// Google Analytics (Apr 2018)
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-117280924-1');
 </script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117280924-1"></script>
 </html>

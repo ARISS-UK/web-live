@@ -12,7 +12,8 @@
                 url('/fonts/Open_Sans_600.ttf') format('truetype');
 }
 #header-image {
-    width: 64%;
+    height: 110px;
+    /*width: 64%;*/
     padding-left: 4px;
     padding-top: 10px;
     padding-bottom: 2px;
@@ -38,6 +39,10 @@
     display: inline-block;
     padding-top: 10px;
     padding-right: 25px;
+}
+/* Remove highlighting after click */
+.navbar > .navbar-collapse > .navbar-nav > .nav-link:focus {
+    color: rgba(0,0,0,.5);
 }
 .navbar > .navbar-collapse > .navbar-nav > .active {
     color: #2ea3f2;

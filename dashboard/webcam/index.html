@@ -1,0 +1,28 @@
+<html>
+<head>
+<style>
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 98%;
+}
+</style>
+</head>
+<body>
+<img src="/dashboard/webcam/webcam.jpg" id="webcam" ></img>
+</body>
+<script>
+setInterval(function()
+{
+    document.getElementById("webcam").src="/dashboard/webcam/webcam.jpg?t="+Math.floor((Math.random()*100000)+1);
+},1.0*1000);
+
+// Google Analytics (Apr 2018)
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-117280924-1');
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117280924-1"></script>
+</html>

@@ -1,38 +1,26 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">	
   <url>
-    <loc>https://ariss.batc.tv/</loc>
-    <lastmod>2016-12-25T12:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://ariss.batc.tv/hamtv/</loc>
-    <lastmod>2017-02-08T12:00:00+00:00</lastmod>
+    <loc>https://live.ariss.org/</loc>
+    <lastmod>2018-04-10T12:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://ariss.batc.tv/tle/</loc>
-    <lastmod>2016-12-25T12:00:00+00:00</lastmod>
-    <changefreq>hourly</changefreq>
+    <loc>https://live.ariss.org/hamtv/</loc>
+    <lastmod>2018-04-10T12:00:00+00:00</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ariss.batc.tv/goonhilly/</loc>
-    <lastmod>2016-12-25T12:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <loc>https://live.ariss.org/tle/</loc>
+    <lastmod>2018-04-10T12:00:00+00:00</lastmod>
+    <changefreq>hourly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ariss.batc.tv/tsmerge/</loc>
-    <lastmod>2016-12-28T23:00:00+00:00</lastmod>
+    <loc>https://live.ariss.org/goonhilly/</loc>
+    <lastmod>2018-04-10T12:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://ariss.batc.tv/ts/index.php/s/bm5k8BlamxsKDpz</loc>
-    <lastmod>2016-12-25T12:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
 </urlset>

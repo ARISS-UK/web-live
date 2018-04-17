@@ -24,21 +24,14 @@ body {
     font-family: "Open Sans", Arial, sans-serif;
     font-weight: bold;
 }
-#footer {
-  padding-top: 14px;
-  padding-left: 8%;
-  padding-bottom: 14px;
-  font-family: "Open Sans", Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  background-color: #111B23;
-  color: #666;
-}
 table {
 	width: 60%;
 }
 td {
 	width: 70px;
+}
+#tle-description {
+  font-weight: normal;
 }
 #textarea-tle {
     margin-top: 10px;
@@ -72,6 +65,10 @@ td {
 <div class="row page-row">
   <div class="col-md-12">
     <h1>Latest Space-Track ISS TLE</h1>
+    <span id="tle-description">
+      This "Two-Line Element" file is published by US Joint Space Operations Center, containing the numerical coefficients of the ISS orbit.<br>
+      ARISS uses this file to accurately predict the movement of the ISS and point the antennas during the Contacts.<br>
+    </span>
     <textarea readonly id="textarea-tle"></textarea>
     <table>
     <tr>
@@ -84,18 +81,18 @@ td {
       <td>Raw Link:&nbsp;</td><td><a href="http://live.ariss.org/iss.txt" target="_blank">http://live.ariss.org/iss.txt</a></td>
     </tr>
     <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
-    <tr><td colspan="2"><h4><b>Calculated Goonhilly Data</b></h4></td></tr>
+    <tr><td colspan="2"><h4><b>Calculated ISS Data</b></h4></td></tr>
     <tr>
-      <td width="150px">Time to Goonhilly <span id="iss-data-nextaos-name">AOS: </span></td>
-      <td><span id="iss-data-nextaos"></span></td>
+      <td>Time:&nbsp;</td>
+      <td id="iss-data-time"></td>
     </tr>
     <tr>
-      <td>Goonhilly Elevation:&nbsp;</td>
-      <td id="iss-data-elevation"></td>
+      <td>Position:&nbsp;</td>
+      <td id="iss-data-position"></td>
     </tr>
     <tr>
-      <td>Goonhilly Range:&nbsp;</td>
-      <td id="iss-data-range"></td>
+      <td>Altitude:&nbsp;</td>
+      <td id="iss-data-altitude"></td>
     </tr>
   </table>
   </div>
@@ -103,7 +100,7 @@ td {
 </div>
 </div>
 <div id="footer">
-© ARISS
+© <a href="http://www.ariss.org/" target="_blank">ARISS<a/>
 </div>
 </div>
 </body>
@@ -114,96 +111,73 @@ td {
 /*** Phil's Satellite Code ***/
 var iss;
 var future_iss;
+var iss_update_timer = null;
 var ourLocation = [50.049, -5.183]; // Goonhilly by default
 var ourAltitude = 0; // Meters
 var aosThreshold = 0; // Degrees
 var tleDate = "";
 var epochDate = "";
 
-page_run();
-setInterval(page_run,10*1000);
-setInterval(function() {
-    if (typeof iss !== 'undefined') {
-        iss.refresh();
-        updateISSData();
-    }
-}, 1000);
+loadTLE();
 
 /* Data update function */
 function updateISSData()
 {
-    //document.getElementById("iss-data-altitude").textContent = Math.round(iss.orbit.getAltitude()*10)/10 + " km";
-    $("#iss-data-range").text(Math.round((latlonRange(ourLocation,ourAltitude,iss.orbit.getPosition(),iss.orbit.getAltitude()*1000))/100)/10 + " km");
-    var issElevation = relativeElevation(ourLocation,ourAltitude,iss.orbit.getPosition(),iss.orbit.getAltitude()*1000);
-    $("#iss-data-elevation").text(Math.round(issElevation*10)/10 + "°");
-    if(issElevation>aosThreshold)
-    {
-        /* We're in a pass */
-        $("#iss-data-nextaos-name").text("LOS: ");
-        var los = findLos(ourLocation,ourAltitude,aosThreshold);
-        if(los !== null)
-        {
-            $("#iss-data-nextaos").text(aosTimeString(los));
-        }
-    }
-    else
-    {
-        /* We're waiting for the next pass */
-        $("#iss-data-nextaos-name").text("AOS: ");
-        var aos = findAos(ourLocation,ourAltitude,aosThreshold);
-        if(aos !== null)
-        {
-            $("#iss-data-nextaos").text(aosTimeString(aos));
-        }
-    }
+    var utc_now = new Date();
+    iss.refresh();
+    $("#iss-data-time").text(pad(utc_now.getUTCHours(),2)+":"+pad(utc_now.getUTCMinutes(),2)+":"+pad(utc_now.getUTCSeconds(),2)+" UTC");
+    $("#iss-data-position").text(
+        (Math.round(iss.orbit.getPosition()[0]*10000)/10000).toFixed(4) + "°, "
+        +(Math.round(iss.orbit.getPosition()[1]*10000)/10000).toFixed(4) + "°"
+    );
+    $("#iss-data-altitude").text(
+        (Math.round(iss.orbit.getAltitude()*10)/10).toFixed(1) + " km"
+    );
+    iss_update_timer = setTimeout(updateISSData, 1000);
 }
-function page_run()
+function loadTLE()
 {
-	$.ajax({
-	    url:      "/iss.txt",
-	    type:     'GET',
-	    cache:      false,
-	    success: function(data, status, xhr)
-	    {
-		var stations = orbits.util.parseTLE(data);
-		var i = 0;
-		for(;i < stations.length; i++)
-		{
-		    if(stations[i].name == "ISS (ZARYA)") {
-			var satOpts = {
-			    tle: stations[i],
-			    pathLength: 1,
-			  };
-			 
-			iss = new orbits.Satellite(satOpts);  
-			future_iss = new orbits.Satellite(satOpts);  
-			iss.refresh();
-
-			$("#textarea-tle").val(stations[i].text.trim());
-			
-			tleDate = convertDateToUTC(new Date(xhr.getResponseHeader("Last-Modified")));
-			$("#iss-data-fileupdated").text(tleDate.toLocaleDateString() + " " + tleDate.toLocaleTimeString() + " UTC");
-
-			epochDate = convertDateToUTC(epochToDate(iss.tle.epoch_year,iss.tle.epoch_day));
-			$("#iss-data-epoch").text(epochDate.toLocaleDateString() + " " + epochDate.toLocaleTimeString() + " UTC");
-			
-                        updateISSData();
-		    }
-		}
-	    },
-	    error: function()
-	    {
-		console.log("TLE Error.");
-	    }
-	});
-}
-/* Hours, minutes, seconds string construction function */
-function aosTimeString(aosTime) {
-    var now = new Date();
-    var d = new Date(now.getTime());
-    var diff = aosTime.getTime() - d.getTime();
-    var diff_as_date = new Date(diff);
-    return pad(diff_as_date.getUTCHours(),2) + ":" + pad(diff_as_date.getUTCMinutes(),2) + ":" + pad(diff_as_date.getUTCSeconds(),2);
+    $.ajax({
+        url:      "/iss.txt",
+        type:     'GET',
+        cache:    false
+    }).done(function(data, status, xhr) {
+       var stations = orbits.util.parseTLE(data);
+       for(var i = 0; i < stations.length; i++)
+       {
+           if(stations[i].name == "ISS (ZARYA)")
+           {
+       	       var satOpts = {
+       	           tle: stations[i],
+       	           pathLength: 1,
+       	       };
+       	        
+       	       iss = new orbits.Satellite(satOpts);  
+       	       future_iss = new orbits.Satellite(satOpts);  
+       	       iss.refresh();
+   
+       	       $("#textarea-tle").val(stations[i].text.trim());
+       	       
+       	       tleDate = convertDateToUTC(new Date(xhr.getResponseHeader("Last-Modified")));
+       	       $("#iss-data-fileupdated").text(tleDate.toLocaleDateString() + " " + tleDate.toLocaleTimeString() + " UTC");
+   
+       	       epochDate = convertDateToUTC(epochToDate(iss.tle.epoch_year,iss.tle.epoch_day));
+       	       $("#iss-data-epoch").text(epochDate.toLocaleDateString() + " " + epochDate.toLocaleTimeString() + " UTC");
+       	    
+               if(iss_update_timer == null)
+               {
+                   // Start ISS Data Update timer
+                   updateISSData();
+               }
+           }
+       }
+   }).fail(function() {
+       $("#textarea-tle").val("Error loading TLE from server.");
+       console.log("TLE Error.");
+   }).always(function() {
+       // Reload TLE every 60s
+       setTimeout(loadTLE, 60*1000);
+   });
 }
 function pad(num, size) {
     var s = num+"";
@@ -231,6 +205,16 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'UA-117280924-1');
+/* Send event 1x per minute to count viewers */
+var ga_page = 'tle';
+function ga_realtime()
+{
+   gtag('event', ga_page+'-page-1m', {'event_category': 'viewers'});
+   setTimeout(ga_realtime, 60*1000);
+}
+ga_realtime();
+/* Refresh page every 6 hours to update lurkers */
+setTimeout(function() { window.location.href=window.location.href; }, 6*60*60*1000);
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117280924-1"></script>
 </html>

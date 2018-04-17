@@ -23,6 +23,14 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'UA-117280924-1');
+/* Send event 1x per minute to count viewers */
+var ga_page = 'dashboard-camera';
+function ga_realtime()
+{
+   gtag('event', ga_page+'-page-1m', {'event_category': 'viewers'});
+   setTimeout(ga_realtime, 60*1000);
+}
+ga_realtime();
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117280924-1"></script>
 </html>

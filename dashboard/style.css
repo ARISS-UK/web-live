@@ -102,19 +102,19 @@ body {
   width: 1100px;
 }
 .webcam-online {
-  -moz-transform: scale(0.4, 0.4);
-  -webkit-transform: scale(0.4, 0.4);
-  -o-transform: scale(0.4, 0.4);
-  -ms-transform: scale(0.4, 0.4);
+  transform: scale(0.38, 0.38);
+  -moz-transform: scale(0.38, 0.38);
+  -webkit-transform: scale(0.38, 0.38);
+  -o-transform: scale(0.38, 0.38);
+  -ms-transform: scale(0.38, 0.38);
   -moz-transform-origin: top left;
   -webkit-transform-origin: top left;
   -o-transform-origin: top left;
   -ms-transform-origin: top left;
   height: 1024px;
-  left: -80px;
+  left: -60px;
   position: relative;
   top: -45px;
-  transform: scale(0.4, 0.4);
   transform-origin: left top 0;
   width: 1280px;
   background-color: black;

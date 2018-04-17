@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ARISS Live Webcast</title>
-<meta name="description" content="Live Contact Webcast">
+<meta name="description" content="Live Webcast of Amateur Radio Contacts between students and astronauts on the International Space Station">
 <link rel="icon" type="image/png" href="/images/ariss_logo_32x32.png" sizes="32x32">
 <link rel="icon" type="image/png" href="/images/ariss_logo_64x64.png" sizes="64x64">
 <link rel="icon" type="image/png" href="/images/ariss_logo_128x128.png" sizes="128x128">
@@ -17,9 +17,9 @@
   padding-bottom: 10px;
 }
 #stream-player {
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
 }
 #stream-player:before {
   display: block;
@@ -35,44 +35,51 @@
   bottom: 0;
 }
 #stream-stats {
-    margin-left: auto;
-    margin-right: auto;
-    width: 100%;
-    color: #FFFFFF;
-    font-family: "Open Sans", Arial, sans-serif;
-    font-weight: bold;
-    font-size: 14px;
-    margin-bottom: 10px;
-    padding-left: 3px;
-    padding-right: 3px;
-}
-#stream-credit {
-    float: right;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  color: #FFFFFF;
+  font-family: "Open Sans", Arial, sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 10px;
+  padding-left: 3px;
+  padding-right: 3px;
 }
 #stream-bandwidth {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    width: 100%;
-    color: #FFFFFF;
-    font-size: 90%;
-    font-family: "Open Sans", Arial, sans-serif;
-    font-weight: bold;
-    padding-top: 15px;
-  padding-bottom: 14px;
+  float: right;
+  display: none;
 }
 .false-link {
-    cursor: pointer;
+  cursor: pointer;
+}
+#stream-lowerbox {
+  color: white;
+  width: fit-content;
+  border-radius: 10px;
+  padding-top: 8px;
+  padding-bottom: 10px;
+  padding-left: 15px;
+  padding-right: 100px;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  line-height: 1.9em;
+}
+#lowerbox-countdown {
+  font-weight: bold;
+}
+#lowerbox-countdown-value {
+  display: inline-block;
 }
 .info-pane {
-  font-size: 95%;
+  font-size: 0.9em;
   width: 100%;
   background-color: white;
   border-radius: 10px;
   padding: 15px;
   padding-top: 7px;
   padding-bottom: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
 }
 .info-paragraph-top {
   margin-top: 4px;
@@ -81,6 +88,9 @@
 }
 .info-paragraph {
   padding-left: 8px;
+  margin-bottom: 18px;
+}
+.schedule-paragraph {
   margin-bottom: 18px;
 }
 .station-elevation-visible {
@@ -102,50 +112,40 @@
   /*font-size: 14px;*/
   opacity: 0.7;
 }
-#footer {
-  padding-top: 14px;
-  padding-left: 8%;
-  padding-bottom: 14px;
-  font-family: "Open Sans", Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  background-color: #111B23;
-  color: #666;
-}
 #twitter-credit {
   font-size: 10px;
   color: grey;
   text-align: center;
 }
 .loading {
-    height: 14px;
-    width: 14px;
-	-webkit-animation:spin 2s linear infinite;
-	-moz-animation:spin 2s linear infinite;
-	animation:spin 2s linear infinite;
+  height: 14px;
+  width: 14px;
+  -webkit-animation:spin 2s linear infinite;
+  -moz-animation:spin 2s linear infinite;
+  animation:spin 2s linear infinite;
 }
 .fast-loading {
-    height: 14px;
-    width: 14px;
-	-webkit-animation:spin 1s linear infinite;
-	-moz-animation:spin 1s linear infinite;
-	animation:spin 1s linear infinite;
+  height: 14px;
+  width: 14px;
+  -webkit-animation:spin 1s linear infinite;
+  -moz-animation:spin 1s linear infinite;
+  animation:spin 1s linear infinite;
 }
 @-moz-keyframes spin { 100% { 
-	-moz-transform:rotate(360deg); 
-	}
+    -moz-transform:rotate(360deg); 
+  }
 }
 @-webkit-keyframes spin { 100% { 
-	-webkit-transform:rotate(360deg); 
-	}
+    -webkit-transform:rotate(360deg); 
+  }
 }
 @keyframes spin { 100% {
-	-webkit-transform:rotate(360deg);
-	transform:rotate(360deg);
-	}
+    -webkit-transform:rotate(360deg);
+    transform:rotate(360deg);
+  }
 }
 svg.poster-icon {
-    display: none !important;
+  display: none !important;
 }
 </style>
 </head>
@@ -171,8 +171,15 @@ svg.poster-icon {
 <div class="row" id="videochat-row">
 <div id="col-player" class="col-lg-8">
   <div id="stream-player"></div>
-  <div id="stream-stats"><span id="stream-stats-status">Loading..</span></div>
-  <div id="stream-bandwidth"></div>
+  <div id="stream-stats">
+    <span id="stream-stats-status">Loading..</span>
+    <span id="stream-bandwidth"></span>
+  </div>
+  <div id="stream-lowerbox" class="card card-body bg-dark">
+  <span id="lowerbox-countdown">Live Web Stream will begin in approximately: <span id="lowerbox-countdown-value">--</span></span>
+  <span>Amateur Radio on the International Space Station: <a href="http://www.ariss.org/" target="_blank">ariss.org</a></span>
+  <span>Get your school or organisation involved: <a href="http://www.ariss.org/apply-to-host-an-ariss-contact.html" target="_blank">hosting an ARISS contact</a></span>
+  </div>
 </div>
 <div class="col-lg-4">
 <div class="info-pane">
@@ -180,32 +187,32 @@ svg.poster-icon {
    Live Contact via Amateur Radio between students, and astronauts on the International Space Station.
   </p>
   <h5>King's High School, Warwick, UK</h5>
-  <p class="info-paragraph">
-    12:05 UTC, Thurs 19/04/2018<br>
-    Further Details TBC.
+  <p class="schedule-paragraph">
+    <u>Thursday 19th April 2018</u><br>
+    1100 UTC<br>
+    &nbsp;-&nbsp;Web Stream begins.<br>
+    &nbsp;-&nbsp;Welcome & Presentations by King's High School for Girls.<br>
+    1145 UTC<br>
+    &nbsp;-&nbsp;ARISS Operations UK Team Introduction<br>
+    <b>1205 UTC</b><br>
+    &nbsp;-&nbsp;<b>ARISS Contact with Ricky Arnold on the ISS</b><br>
+    1215 UTC<br>
+    &nbsp;-&nbsp;Closing remarks.<br>
+    &nbsp;-&nbsp;Web Stream ends.<br>
   </p>
-  <h5>ISS Position - <a href="/goonhilly/" target="_blank">Live Map</a></h5>
+  <h5>ISS Tracking - <a href="/dashboard/" target="_blank">Live Map</a></h5>
   <p class="info-paragraph">
+    Time: <span id="utc-time-display">--:--:--</span><br>
     Distance from Warwick: <span id="venue-iss-range">--km</span><br>
     - Direction: <span id="venue-iss-azimuth">--.-°</span><br>
     - Elevation: <span id="venue-iss-elevation">--.-°</span><br>
-    - <span id="venue-iss-nextpass-label">Next pass</span>: <span id="venue-iss-nextpass">--:--:--</span>
-  </p>
-  <p>
-  Amateur Radio on the International Space Station: <a href="http://www.ariss.org/" target="_blank">ariss.org</a>
-  </p>
-  <p>
-  Follow on twitter: <a href="https://twitter.com/ARISS_status" target="_blank">@ARISS_status</a>
-  </p>
-  <p>
-  Get your school involved: <a href="http://www.ariss.org/apply-to-host-an-ariss-contact.html" target="_blank">hosting an ARISS contact</a>
   </p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
-© ARISS
+© <a href="http://www.ariss.org/" target="_blank">ARISS<a/>
 </div>
 </div>
 </body>
@@ -215,8 +222,8 @@ svg.poster-icon {
 <script src="/lib/batc-0.1.0.js"></script>
 <script src="/lib/orbits-1.2.1.js"></script>
 <script>
-var hlsSource = "/hls";
-var hlsSourceUrl = "/404";
+var hlsSource = "/hls/";
+var hlsSourceUrl = "/hls/sources.json";
 var streamName = "event";
 if('test' in parse_query_string(window.location.search.substring(1)))
 {
@@ -226,52 +233,51 @@ var posterPicture = "/images/webcast-poster.jpg";
 var posterVideo = "/images/webcast-poster.mp4";
 
 var statusHtml_connecting = "Connecting to Server...&nbsp;<img src=\""+loadingImage+"\" class=\"loading\"></img>";
-var statusText_inactive = "Connected: Stream is Inactive";
-var statusText_active = "Connected: Stream is Active";
+var statusText_inactive = "Standing by.";
+var statusText_active = "Stream running.";
+
+var streamStartDate = new Date("Apr 19, 2018 11:00 UTC").getTime();
+//var streamStartDate = new Date("Apr 12, 2018 11:00 UTC").getTime();
+function updateCountdown()
+{
+  var distance = streamStartDate - (new Date().getTime());
+  
+  if(distance > 0)
+  {
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+  // Display the result in the element with id="demo"
+
+    $("#lowerbox-countdown").show(); 
+    $("#lowerbox-countdown-value").text(pad(days,2) + "d " + pad(hours,2) + "h " + pad(minutes,2) + "m " + pad(seconds,2) + "s ");
+  }
+  else
+  {
+    $("#lowerbox-countdown").hide();
+  }
+
+  setTimeout(updateCountdown, 1000);
+}
+updateCountdown();
 
 var iss;
-var tle_loaded = false;
+var iss_update_timer = null;
 var next_aos = null;
 var next_los = null;
 var venue_lat = 52.28;
 var venue_lon = -1.586;
 var venue_alt = 100;
-$(function() {
-  $.ajax({
-    url:      "/iss.txt",
-    type:     'GET',
-    cache:      false,
-    success: function(data, status)
-    {
-      var stations = orbits.util.parseTLE(data);
-      var i = 0;
-      for(;i < stations.length; i++)
-      {
-        if(stations[i].name == "ISS (ZARYA)")
-        {
-          var satOpts = {
-            tle: stations[i],
-            pathLength: 1,
-          };
-          iss = new orbits.Satellite(satOpts);
-          future_iss = new orbits.Satellite(satOpts);   
-          tle_loaded = true;
-          setTimeout(updateISS,50);
-        }
-      }
-    },
-    error: function()
-    {
-      console.log("TLE Error.");
-    }
-  });
-});
 
-function updateISS()
+loadTLE();
+
+function updateISSData()
 {
-  if(tle_loaded)
-  {
+    var utc_now = new Date();
     iss.refresh();
+    $("#utc-time-display").text(pad(utc_now.getUTCHours(),2)+":"+pad(utc_now.getUTCMinutes(),2)+":"+pad(utc_now.getUTCSeconds(),2)+" UTC");
     var venue_iss_range = Math.round((latlonRange([venue_lat, venue_lon],venue_alt,iss.orbit.getPosition(),iss.orbit.getAltitude()*1000))/1000);
     var venue_iss_azimuth = Math.round(relativeAzimuth(
       [ venue_lat, venue_lon], venue_alt,
@@ -290,13 +296,14 @@ function updateISS()
         .removeClass("station-elevation-occluded")
         .addClass("station-elevation-visible")
         .text(venue_iss_elevation.toFixed(1)+'°');
-      if(next_los == null)
+      /*if(next_los == null)
       {
           next_los = findLos([venue_lat, venue_lon],venue_alt,0);
           $("#venue-iss-nextpass-label").text("End of pass");
       }
       $("#venue-iss-nextpass").text("-" + countdownTimeString(next_los));
       next_aos = null;
+      */
     }
     else if(venue_iss_elevation > 0)
     {
@@ -305,13 +312,13 @@ function updateISS()
         .removeClass("station-elevation-visible")
         .addClass("station-elevation-horizon")
         .text(venue_iss_elevation.toFixed(1)+'°');
-      if(next_los == null)
+      /*if(next_los == null)
       {
           next_los = findLos([venue_lat, venue_lon],venue_alt,0);
           $("#venue-iss-nextpass-label").text("End of pass");
       }
       $("#venue-iss-nextpass").text("-" + countdownTimeString(next_los));
-      next_aos = null;
+      next_aos = null;*/
     }
     else
     {
@@ -320,20 +327,48 @@ function updateISS()
         .removeClass("station-elevation-horizon")
         .addClass("station-elevation-occluded")
         .text(venue_iss_elevation.toFixed(1)+'° (below horizon)');
-      if(next_aos == null)
+      /*if(next_aos == null)
       {
           next_aos = findAos([venue_lat, venue_lon],venue_alt,0);
           $("#venue-iss-nextpass-label").text("Next pass");
       }
       $("#venue-iss-nextpass").text("-" + countdownTimeString(next_aos));
-      next_los = null;
+      next_los = null;*/
     }
-    setTimeout(updateISS,1000);
-  }
-  else
-  {
-    setTimeout(updateISS,50);
-  }
+    iss_update_timer = setTimeout(updateISSData,1000);
+}
+
+function loadTLE()
+{
+    $.ajax({
+        url:      "/iss.txt",
+        type:     'GET',
+        cache:    false
+    }).done(function(data, status, xhr) {
+       var stations = orbits.util.parseTLE(data);
+       for(var i = 0; i < stations.length; i++)
+       {
+           if(stations[i].name == "ISS (ZARYA)")
+           {
+               var satOpts = {
+                   tle: stations[i],
+                   pathLength: 1,
+               };
+               iss = new orbits.Satellite(satOpts);  
+            
+               if(iss_update_timer == null)
+               {
+                   // Start ISS Data Update timer
+                   updateISSData();
+               }
+           }
+       }
+   }).fail(function() {
+       console.log("TLE Error.");
+   }).always(function() {
+       // Reload TLE every 600s (10 minutes)
+       setTimeout(loadTLE, 600*1000);
+   });
 }
 
 function parse_query_string(query) {
@@ -410,6 +445,16 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'UA-117280924-1');
+/* Send event 1x per minute to count viewers */
+var ga_page = 'webcast';
+function ga_realtime()
+{
+   gtag('event', ga_page+'-page-1m', {'event_category': 'viewers'});
+   setTimeout(ga_realtime, 60*1000);
+}
+ga_realtime();
+/* Refresh page every 6 hours to update lurkers */
+setTimeout(function() { window.location.href=window.location.href; }, 6*60*60*1000);
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117280924-1"></script>
 </html>

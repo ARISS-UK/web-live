@@ -436,6 +436,16 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'UA-117280924-1');
+/* Send event 1x per minute to count viewers */
+var ga_page = 'dashboard';
+function ga_realtime()
+{
+   gtag('event', ga_page+'-page-1m', {'event_category': 'viewers'});
+   setTimeout(ga_realtime, 60*1000);
+}
+ga_realtime();
+/* Refresh page every 6 hours to update lurkers */
+setTimeout(function() { window.location.href=window.location.href; }, 6*60*60*1000);
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117280924-1"></script>
 </html>

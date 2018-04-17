@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ARISS HAMTV</title>
-<meta name="description" content="HAMTV Stream & Receivers">
+<meta name="description" content="ISS HAMTV Video Receiver Stations & Output Stream">
 <link rel="icon" type="image/png" href="/images/ariss_logo_32x32.png" sizes="32x32">
 <link rel="icon" type="image/png" href="/images/ariss_logo_64x64.png" sizes="64x64">
 <link rel="icon" type="image/png" href="/images/ariss_logo_128x128.png" sizes="128x128">
@@ -46,26 +46,15 @@
     margin-right: auto;
     width: 100%;
     color: #FFFFFF;
+    font-size: 14px;
     font-family: "Open Sans", Arial, sans-serif;
     font-weight: bold;
     margin-bottom: 10px;
     padding-left: 3px;
     padding-right: 3px;
 }
-#stream-credit {
-    float: right;
-}
 #stream-bandwidth {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    width: 100%;
-    color: #FFFFFF;
-    font-size: 90%;
-    font-family: "Open Sans", Arial, sans-serif;
-    font-weight: bold;
-    padding-top: 15px;
-  padding-bottom: 14px;
+    float: right;
 }
 .false-link {
     cursor: pointer;
@@ -122,16 +111,6 @@
   display: inline-block;
   font-size: 14px;
   opacity: 0.7;
-}
-#footer {
-  padding-top: 14px;
-  padding-left: 8%;
-  padding-bottom: 14px;
-  font-family: "Open Sans", Arial, sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  background-color: #111B23;
-  color: #666;
 }
 #twitter-credit {
   font-size: 10px;
@@ -193,12 +172,16 @@ div[data-watermark] {
 <div class="container">
 <div class="row" id="videochat-row">
  <div id="col-player" class="col-lg-8">
-  <div id="stream-header">This page shows the HAMTV Downlink Only.<br></div>
+  <div id="stream-header">This is the HAMTV video downlink only, <a href="/">click here</a> for the Live Event Webcast.<br></div>
   <div id="stream-player"></div>
-  <div id="stream-stats"><span id="stream-stats-status">Loading..</span></div>
-  <div id="stream-bandwidth"></div>
+  <div id="stream-stats">
+   <span id="stream-stats-status">Loading..</span>
+   <span id="stream-bandwidth"></span>
+  </div>
   <div class="card card-body bg-light">
-    <p class="card-text">This distributed receiver system has been built by Phil Heron MI0VIM and Phil Crump M0DNY, with support of the British Amateur Television Club.</p>
+    <p class="card-text"><b>No HAMTV Video Contacts are currently scheduled, due to failure of the VHF voice transceiver in the Columbus module.</b></p>
+    <p class="card-text">HAMTV is a Digital Amateur TV transmitter in the ESA Columbus module which allows a live Video Downlink of the astronauts to the audience during Contacts, enhancing engagement and facilitating live zero-g demonstrations.</p>
+    <p class="card-text">This distributed TV groundstation system has been built by Phil Heron MI0VIM and Phil Crump M0DNY, with support of the British Amateur Television Club.</p>
     <p class="card-text">For more information, visit #ariss on freenode IRC (<a class="card-link" href="http://webchat.freenode.net/?channels=#ariss" target="_blank">webchat link</a>)</p>
   </div>
  </div>
@@ -213,7 +196,7 @@ div[data-watermark] {
 </div>
 </div>
 <div id="footer">
-© ARISS
+© <a href="http://www.ariss.org/" target="_blank">ARISS<a/>
 </div>
 </div>
 </body>
@@ -224,7 +207,7 @@ div[data-watermark] {
 <script src="/lib/orbits-1.2.1.js"></script>
 <script>
 var hlsSource = "/hls";
-var hlsSourceUrl = "/404";
+var hlsSourceUrl = "/hls/sources.json";
 var streamName = "hamtv";
 //var streamName = "FAKEFAKE";
 var posterPicture = "/images/poster.jpg";
@@ -491,6 +474,16 @@ window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'UA-117280924-1');
+/* Send event 1x per minute to count viewers */
+var ga_page = 'hamtv';
+function ga_realtime()
+{
+   gtag('event', ga_page+'-page-1m', {'event_category': 'viewers'});
+   setTimeout(ga_realtime, 60*1000);
+}
+ga_realtime();
+/* Refresh page every 6 hours to update lurkers */
+setTimeout(function() { window.location.href=window.location.href; }, 6*60*60*1000);
 </script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-117280924-1"></script>
 </html>

@@ -188,24 +188,14 @@ svg.poster-icon {
   </p>
   <h5>King's High School, Warwick, UK</h5>
   <p class="schedule-paragraph">
-    <u>Thursday 19th April 2018</u><br>
-    1130 UTC<br>
-    &nbsp;-&nbsp;Web Stream begins.<br>
-    &nbsp;-&nbsp;Welcome & Presentations by King's High School for Girls.<br>
-    1145 UTC<br>
-    &nbsp;-&nbsp;ARISS Operations UK Team Introduction<br>
-    <b>1205 UTC</b><br>
-    &nbsp;-&nbsp;<b>ARISS Contact with Ricky Arnold on the ISS</b><br>
-    1215 UTC<br>
-    &nbsp;-&nbsp;Closing remarks.<br>
-    &nbsp;-&nbsp;Web Stream ends.<br>
+    <u>1205 UTC Thursday 19th April 2018</u><br>
+    Successful Contact! - <a href="https://youtu.be/HpVc1ikj4pE?t=29s" target="_blank">YouTube</a><br>
   </p>
   <h5>ISS Tracking - <a href="/dashboard/" target="_blank">Live Map</a></h5>
   <p class="info-paragraph">
     Time: <span id="utc-time-display">--:--:--</span><br>
-    Distance from Warwick: <span id="venue-iss-range">--km</span><br>
-    - Direction: <span id="venue-iss-azimuth">--.-°</span><br>
-    - Elevation: <span id="venue-iss-elevation">--.-°</span><br>
+    Position: <span id="iss-data-position">-.-, -.-</span><br>
+    Altitude: <span id="iss-data-altitude">---</span>
   </p>
 </div>
 </div>
@@ -287,6 +277,13 @@ function updateISSData()
       [ venue_lat, venue_lon], venue_alt,
       iss.orbit.getPosition(), iss.orbit.getAltitude()*1000
       )*10)/10;
+    $("#iss-data-position").text(
+        (Math.round(iss.orbit.getPosition()[0]*10000)/10000).toFixed(4) + "°, "
+        +(Math.round(iss.orbit.getPosition()[1]*10000)/10000).toFixed(4) + "°"
+    );
+    $("#iss-data-altitude").text(
+        (Math.round(iss.orbit.getAltitude()*10)/10).toFixed(1) + " km"
+    );
     $("#venue-iss-range").text(venue_iss_range.toFixed(0)+'km');
     $("#venue-iss-azimuth").text(venue_iss_azimuth.toFixed(1)+'° ('+compass(venue_iss_azimuth)+')');
     if(venue_iss_elevation >= 10)

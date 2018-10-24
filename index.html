@@ -10,7 +10,7 @@
 <link rel="icon" type="image/png" href="/images/ariss_logo_64x64.png" sizes="64x64">
 <link rel="icon" type="image/png" href="/images/ariss_logo_128x128.png" sizes="128x128">
 <link rel="icon" type="image/png" href="/images/ariss_logo_192x192.png" sizes="192x192">
-<link href="/lib/bootstrap-4.1.1/css/bootstrap.min.css" rel="stylesheet">
+<link href="/lib/bootstrap-4.1.3/css/bootstrap.min.css" rel="stylesheet">
 <link href="/lib/ariss.css" rel="stylesheet">
 <style>
 #videochat-row {
@@ -91,6 +91,7 @@
   margin-bottom: 18px;
 }
 .schedule-paragraph {
+  padding-left: 8px;
   margin-bottom: 18px;
 }
 .station-elevation-visible {
@@ -144,9 +145,6 @@
     transform:rotate(360deg);
   }
 }
-svg.poster-icon {
-  display: none !important;
-}
 </style>
 </head>
 <body>
@@ -188,13 +186,14 @@ svg.poster-icon {
   </p>
   <h5>Next Live ARISS Webcast</h5>
   <p class="schedule-paragraph">
-    [To be confirmed]
+    <b>Postponed to October 2018</b><br>
+    Integrierte Gesamtschule Osterholz-Scharmbeck & Gymnasium Soltau, Germany
   </p>
-  <h5>ISS Tracking - <a href="/dashboard/" target="_blank">Live Map</a></h5>
+  <h5>Space Station Location</h5>
   <p class="info-paragraph">
-    Time: <span id="utc-time-display">--:--:--</span><br>
-    Position: <span id="iss-data-position">-.-, -.-</span><br>
-    Altitude: <span id="iss-data-altitude">---</span>
+    <a href="/dashboard/" target="_blank">Live Map and Tracking</a><br>
+    Angle from Venue: <span id="venue-iss-elevation">---</span><br>
+    Distance from Venue: <span id="venue-iss-range">---</span>
   </p>
 </div>
 </div>
@@ -206,8 +205,8 @@ svg.poster-icon {
 </div>
 </body>
 <script src="/lib/jquery-3.3.1.min.js"></script>
-<script src="/lib/bootstrap-4.1.1/js/bootstrap.min.js"></script>
-<script src="/lib/clappr-0.2.85/clappr.min.js"></script>
+<script src="/lib/bootstrap-4.1.3/js/bootstrap.min.js"></script>
+<script src="/lib/clappr-0.2.93/clappr.min.js"></script>
 <script src="/lib/batc-0.1.0.js"></script>
 <script src="/lib/orbits-1.2.1.js"></script>
 <script>
@@ -223,10 +222,10 @@ var posterVideo = "/images/webcast-poster.mp4";
 
 var statusHtml_connecting = "Connecting to Server...&nbsp;<img src=\""+loadingImage+"\" class=\"loading\"></img>";
 var statusText_inactive = "Standing by.";
-var statusText_active = "Stream running.";
+var statusText_active = "Stream running. Click the player to start!";
 
-var streamStartDate = new Date("Apr 19, 2018 11:30 UTC").getTime();
-//var streamStartDate = new Date("Apr 12, 2018 11:00 UTC").getTime();
+//var streamStartDate = new Date("Sept 1, 2018 08:00 UTC").getTime();
+var streamStartDate = new Date("Apr 12, 2018 11:00 UTC").getTime();
 function updateCountdown()
 {
   var distance = streamStartDate - (new Date().getTime());
@@ -256,8 +255,8 @@ var iss;
 var iss_update_timer = null;
 var next_aos = null;
 var next_los = null;
-var venue_lat = 52.28;
-var venue_lon = -1.586;
+var venue_lat = 53.23;
+var venue_lon = 8.77;
 var venue_alt = 100;
 
 loadTLE();

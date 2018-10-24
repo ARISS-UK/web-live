@@ -1,25 +1,25 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">	
   <url>
     <loc>https://live.ariss.org/</loc>
-    <lastmod>2018-08-23T13:00:00+00:00</lastmod>
+    <lastmod>2018-10-23T13:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://live.ariss.org/hamtv/</loc>
-    <lastmod>2018-04-17T08:00:00+00:00</lastmod>
+    <lastmod>2018-10-23T08:00:00+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://live.ariss.org/tle/</loc>
-    <lastmod>2018-04-17T08:00:00+00:00</lastmod>
+    <lastmod>2018-10-23T08:00:00+00:00</lastmod>
     <changefreq>hourly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://live.ariss.org/dashboard/</loc>
-    <lastmod>2018-04-17T08:00:00+00:00</lastmod>
+    <lastmod>2018-10-23T08:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>

@@ -10,7 +10,11 @@
         <title>ISS Tracker</title>
         <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
         <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-        <script type="text/javascript">
+<link rel="icon" type="image/png" href="/images/ariss_logo_32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/ariss_logo_64x64.png" sizes="64x64">
+<link rel="icon" type="image/png" href="/images/ariss_logo_128x128.png" sizes="128x128">
+<link rel="icon" type="image/png" href="/images/ariss_logo_192x192.png" sizes="192x192">
+	<script type="text/javascript">
 var _0xc19f = [];
 _0xc19f[0] = "";
 _0xc19f[1] = "PI";
@@ -1081,9 +1085,9 @@ function issTrackerResize() {
     document[_0xc19f[171]](_0xc19f[202])[_0xc19f[175]][_0xc19f[201]] = _0xbf08xa2 + _0xc19f[203];
     var _0xbf08xac = ((isDocumentInFullScreenMode()) ? ((screen[_0xc19f[218]] - isst_map_w / 16.0 * 9.0) * 0.5) : 0) + _0xc19f[203];
     document[_0xc19f[171]](_0xc19f[221])[_0xc19f[175]][_0xc19f[218]] = _0xbf08xac;
-    document[_0xc19f[171]](_0xc19f[222])[_0xc19f[175]][_0xc19f[218]] = _0xbf08xac;
+    //document[_0xc19f[171]](_0xc19f[222])[_0xc19f[175]][_0xc19f[218]] = _0xbf08xac;
     if (!isDocumentInFullScreenMode()) {
-        document[_0xc19f[171]](_0xc19f[223])[_0xc19f[175]][_0xc19f[218]] = (220.0 / 625.0 * isst_map_w) + _0xc19f[203]
+        //document[_0xc19f[171]](_0xc19f[223])[_0xc19f[175]][_0xc19f[218]] = (220.0 / 625.0 * isst_map_w) + _0xc19f[203]
     };
     _0xbf08x99 = document[_0xc19f[171]](_0xc19f[191]);
     _0xbf08x99[_0xc19f[175]][_0xc19f[224]] = ((isDocumentInFullScreenMode()) ? screen[_0xc19f[209]] : 625) + _0xc19f[203];
@@ -1607,8 +1611,8 @@ setTimeout(function() { window.location.href=window.location.href; }, 6*60*60*10
             #errmsg {text-align:center;padding:10pt 0pt 10pt 0pt;background-color:#ff0000;font-size:9pt;display:none;}
             #map_canvas {width:100%;max-width:625px;margin:0;margin-top:1px;}
             #isstgap {height:0;background-color:black;}
-            #isstgap2 {height:0;background-color:black;}
-        </style>
+            #isstgap2 {height:0;background-color:black;display:none;}
+	</style>
     </head>
     <body onload="javascript:issTracker_init();" onresize="javascript:issTrackerResize();">
 	<center>
@@ -1674,7 +1678,6 @@ setTimeout(function() { window.location.href=window.location.href; }, 6*60*60*10
                 </table>
                 <div id="waitmsg"><div><br/>Please wait...</div></div>
             </div>
-            <div id="isstgap2">&nbsp;</div>
         </div>
         <div>
             <div id="map_canvas"></div>

@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="7aO8Sw8dRgWnHBPaKKHqoHsVgjpjls-QIBngEMjJzhQ" />
 <title>ARISS Live Webcast</title>
 <meta name="description" content="Live Webcast of Amateur Radio Contacts between students and astronauts on the International Space Station">
 <link rel="icon" type="image/png" href="/images/ariss_logo_32x32.png" sizes="32x32">
@@ -198,20 +199,25 @@
   <p class="info-paragraph-top">
    Live Contact via Amateur Radio between students, and astronauts on the International Space Station.
   </p>
-  <h5>Next Live Webcast</h5>
+  <h5>Rowan Prepatory School, Claygate, United Kingdom</h5>
   <p class="schedule-paragraph">
-  <i>To be confirmed</i>
+    Tuesday 18th June 2019<br>
+    <b>ISS Contact 12:51 UTC</b> (13:51 local time)<br>
+    &nbsp;-&nbsp;with <a href="https://twitter.com/AstroHague" target="_blank">Nick Hague KG5TMV</a>
   </p>
   <h5>Space Station Location</h5>
   <p class="info-paragraph">
-  <a href="/dashboard/" target="_blank">Live Map and Tracking</a><br>
+  <a href="/dashboard/esamap/" target="_blank">Live ISS Position Map</a><br>
+    - Elevation:&nbsp;&nbsp;<span id="venue-iss-elevation">--.-°</span><br>
+    - Direction:&nbsp;&nbsp;<span id="venue-iss-azimuth">--.-°</span><br>
+    - Distance:&nbsp;&nbsp;<span id="venue-iss-range">--km</span><br>
   </p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
-© <a href="http://www.ariss.org/" target="_blank">ARISS<a/>
+© <a href="http://www.ariss.org/" target="_blank">ARISS</a>
 </div>
 </div>
 </body>
@@ -274,9 +280,9 @@ var iss;
 var iss_update_timer = null;
 var next_aos = null;
 var next_los = null;
-// Kenilworth
-var venue_lat = 52.3461;
-var venue_lon = -1.5607;
+// Claygate
+var venue_lat = 51.356;
+var venue_lon = -0.3439;
 var venue_alt = 100;
 
 loadTLE();

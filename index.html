@@ -203,13 +203,16 @@
   <p class="info-paragraph-top">
    Live Contact via Amateur Radio between students, and astronauts on the International Space Station.
   </p>
-  <h5>Next Live Webcast</h5>
+  <h5>Bampton School, Bampton, United Kingdom</h5>
   <p class="schedule-paragraph">
-  <i>To be confirmed</i>
+  Tuesday 8th October @ 1251 UTC (1351 BST)<br>
+  &nbsp;-&nbsp;with <a href="https://twitter.com/AstroDrewMorgan" target="_blank">Drew Morgan KI5AAA</a>
   </p>
-  <h5>Space Station Location</h5>
+  <h5>Space Station Location - <a href="/dashboard/esamap/" target="_blank">Live Map</a></h5>
   <p class="info-paragraph">
-  <a href="/dashboard/" target="_blank">Live Map and Tracking</a><br>
+    - Elevation:&nbsp;&nbsp;<span id="venue-iss-elevation">--.-°</span><br>
+    - Direction:&nbsp;&nbsp;<span id="venue-iss-azimuth">--.-°</span><br>
+    - Distance:&nbsp;&nbsp;<span id="venue-iss-range">--km</span><br>
   </p>
 </div>
 </div>
@@ -249,7 +252,7 @@ var statusText_inactive = "Standing by.";
 var statusText_active = "Stream running.";
 
 //var streamStartDate = new Date("Sept 1, 2018 08:00 UTC").getTime();
-var streamStartDate = new Date("Dec 14, 2018 12:00 UTC").getTime();
+var streamStartDate = new Date("Oct 8, 2019 12:15 UTC").getTime();
 function updateCountdown()
 {
   var distance = streamStartDate - (new Date().getTime());
@@ -279,10 +282,10 @@ var iss;
 var iss_update_timer = null;
 var next_aos = null;
 var next_los = null;
-// Kenilworth
-var venue_lat = 52.3461;
-var venue_lon = -1.5607;
-var venue_alt = 100;
+// Bampton
+var venue_lat = 51.732;
+var venue_lon = -1.5502;
+var venue_alt = 50;
 
 loadTLE();
 

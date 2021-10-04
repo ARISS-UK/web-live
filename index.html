@@ -203,13 +203,16 @@
   <p class="info-paragraph-top">
    Live Contact via Amateur Radio between students, and astronauts on the International Space Station.
   </p>
-  <h5>Next Live Webcast</h5>
+  <h5>Mary Hare School, Newbury, United Kingdom</h5>
   <p class="schedule-paragraph">
-  <i>To be confirmed</i>
+  Tuesday 12th October @ 1112 UTC (1212 BST)
   </p>
   <h5>Space Station Location</h5>
   <p class="info-paragraph">
-  <a href="/dashboard/" target="_blank">Live Map and Tracking</a><br>
+    - Elevation:&nbsp;&nbsp;<span id="venue-iss-elevation">--.-°</span><br>
+    - Direction:&nbsp;&nbsp;<span id="venue-iss-azimuth">--.-°</span><br>
+    - Distance:&nbsp;&nbsp;<span id="venue-iss-range">--km</span><br>
+    <a href="/dashboard/" target="_blank">Live Map and Tracking</a><br>
   </p>
 </div>
 </div>
@@ -249,7 +252,7 @@ var statusText_inactive = "Standing by.";
 var statusText_active = "Stream running.";
 
 //var streamStartDate = new Date("Sept 1, 2018 08:00 UTC").getTime();
-var streamStartDate = new Date("Dec 14, 2018 12:00 UTC").getTime();
+var streamStartDate = new Date("Oct 12, 2021 10:00 UTC").getTime();
 function updateCountdown()
 {
   var distance = streamStartDate - (new Date().getTime());
@@ -279,9 +282,9 @@ var iss;
 var iss_update_timer = null;
 var next_aos = null;
 var next_los = null;
-// Kenilworth
-var venue_lat = 52.3461;
-var venue_lon = -1.5607;
+// Mary Hare
+var venue_lat = 51.4373;
+var venue_lon = -1.332;
 var venue_alt = 100;
 
 loadTLE();

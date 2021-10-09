@@ -1,3 +1,13 @@
+@media (min-width: 1800px) {
+    .container{
+        max-width: 1400px;
+    }
+}
+@media (min-width: 2500px) {
+    .container{
+        max-width: 2000px;
+    }
+}
 #videochat-row {
   padding-bottom: 10px;
 }

@@ -1,7 +1,7 @@
 /* BATC Player JS */
 /* Requires jquery and clappr */
 
-var ws_url = "wss://ariss.batc.tv/tsmerger-ws/";
+var ws_url = "wss://live.ariss.org/tsmerger-ws/";
 var ws_sock = null;
 var ws_reconnect = null;
 

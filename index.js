@@ -5,23 +5,23 @@ let streamName = "event";
 const posterPicture = "/images/webcast-poster.jpg";
 const posterVideo = "/images/webcast-poster.mp4";
 
-const statusHtml_connecting = "Connecting to Server...&nbsp;<img src=\""+loadingImage+"\" class=\"loading\"></img>";
-const statusText_inactive = "Standing by.";
-const statusText_active = "Stream running.";
+let statusHtml_connecting = "Connecting to Server...&nbsp;<img src=\""+loadingImage+"\" class=\"loading\"></img>";
+let statusText_inactive = "Standing by.";
+let statusText_active = "Stream running.";
 
 // Stream Countdown
 //var streamStartDate = new Date("Sept 1, 2018 08:00 UTC").getTime();
-const streamStartDate = new Date("Oct 12, 2021 10:00 UTC").getTime();
+const streamStartDate = new Date("April 18, 2024 10:00 UTC").getTime();
 
 // ISS Location and Angles
 let iss;
 let iss_update_timer = null;
 let next_aos = null;
 let next_los = null;
-// Mary Hare
-const venue_lat = 51.4373;
-const venue_lon = -1.332;
-const venue_alt = 100;
+
+const venue_lat = 50.78;
+const venue_lon = -3.0;
+const venue_alt = 20;
 
 $(function()
 {
@@ -44,11 +44,11 @@ $(function()
   // Load TLE -> Trigger ISS Location and Angles
   loadTLE();
 
-  // Google Analytics (Apr 2018)
+  // Google Analytics GA4 - April 2024
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'UA-117280924-1');
+  gtag('config', 'G-VK2BGVWYS1');
   /* Send event 1x per minute to count viewers */
   var ga_page = 'webcast';
   function ga_realtime()
@@ -57,6 +57,7 @@ $(function()
      setTimeout(ga_realtime, 60*1000);
   }
   ga_realtime();
+
 });
 
 /* Refresh page every 6 hours to update lurkers */

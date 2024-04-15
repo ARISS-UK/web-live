@@ -227,3 +227,11 @@ body {
   width: 179px;
   padding-top: 0.6em;
 }
+
+#locationdata #databox-title {
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 4px;
+  padding-bottom: 4px;
+}

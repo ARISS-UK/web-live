@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="7aO8Sw8dRgWnHBPaKKHqoHsVgjpjls-QIBngEMjJzhQ" />
+<title>ARISS Live Webcast</title>
+<meta name="description" content="Live Webcast of Amateur Radio Contacts between students and astronauts on the International Space Station">
+<link rel="icon" type="image/png" href="/images/ariss_logo_32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/ariss_logo_64x64.png" sizes="64x64">
+<link rel="icon" type="image/png" href="/images/ariss_logo_128x128.png" sizes="128x128">
+<link rel="icon" type="image/png" href="/images/ariss_logo_192x192.png" sizes="192x192">
+<link href="/lib/bootstrap-4.6.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="/lib/ariss.css" rel="stylesheet">
+<link href="youtube.css" rel="stylesheet">
+<script src="/lib/jquery-3.6.0.min.js"></script>
+<script src="/lib/bootstrap-4.6.0/js/bootstrap.min.js"></script>
+<script src="/lib/clappr-0.2.100/clappr.min.js"></script>
+<script src="/lib/orbits-1.2.1.js"></script>
+<script src="/lib/luxon-3.4.4.min.js"></script>
+<script src="/lib/youtube-logoplayer.js"></script>
+<script src="youtube.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VK2BGVWYS1"></script>
+</head>
+<body>
+<img id="header-image" src="/images/ariss-org-header.png">
+
+<div class="navbar navbar-light navbar-expand-lg" role="navigation">
+  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+    <div class="navbar-collapse collapse">
+      <div class="navbar-nav">
+        <a href="#" class="nav-item nav-link active">Live Webcast</a>
+        <a href="/dashboard/esamap/" class="nav-item nav-link" target="_blank">ISS Map</a>
+        <a href="/hamtv/" class="nav-item nav-link">HAMTV Receivers</a>
+        <a href="/tle/" class="nav-item nav-link">ISS TLE</a>
+      </div>
+    </div>
+</div>
+
+<div id="page-background">
+<div class="container">
+<div class="row" id="videochat-row">
+<div id="col-player" class="col-lg-8">
+  <div id="logoplayer"></div>
+  <div id="stream-player">
+    <iframe id="stream-iframe" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+  <div id="stream-lowerbox" class="card card-body bg-dark">
+	  <p><span id="lowerbox-countdown">ISS Contact will begin in approximately: <span id="lowerbox-countdown-value">--</span></span></p>
+  <span>Amateur Radio on the International Space Station: <a href="http://www.ariss.org/" target="_blank">ariss.org</a></span>
+  <span>Get your school or organisation involved: <a href="http://www.ariss.org/apply-to-host-an-ariss-contact.html" target="_blank">hosting an ARISS contact</a></span>
+  <!-- <span id="holding-text">Holding Music by Test Shot Starfish</span> -->
+  </div>
+</div>
+<div class="col-lg-4">
+<div class="info-pane">
+  <p class="info-paragraph-top">
+   Live Contact via Amateur Radio between students and astronauts on the International Space Station.
+  </p>
+  <h5 id="school-name"></h5>
+  <p id="contact-description" class="schedule-paragraph">
+  </p>
+  <h5>Space Station Location</h5>
+  <p class="info-paragraph">
+    - Elevation:&nbsp;&nbsp;<span id="venue-iss-elevation">--.-°</span><br>
+    - Direction:&nbsp;&nbsp;<span id="venue-iss-azimuth">--.-°</span><br>
+    - Distance:&nbsp;&nbsp;<span id="venue-iss-range">--km</span><br>
+    - <a href="/dashboard/esamap/" target="_blank">Live ISS Map</a><br>
+  </p>
+  <h5>See <a href="https://www.ariss.org/upcoming-educational-contacts.html" target="_blank">ariss.org</a> for details of upcoming educational contacts.</h5>
+  <!--
+  <i>Previous ARISS Contact Streams</i>
+  <ul>
+	  <li><a href="https://youtu.be/lnPlIHGV-YE" target="_blank">2023-10-18 - St-Peter-In-Thanet CE Junior School, UK</a></li>
+  </ul>
+-->
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+  © <a href="http://www.ariss.org/" target="_blank">ARISS</a>
+</div>
+</div>
+</body>
+</html>

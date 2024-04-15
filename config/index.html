@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="/images/ariss_logo_32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/ariss_logo_64x64.png" sizes="64x64">
+<link rel="icon" type="image/png" href="/images/ariss_logo_128x128.png" sizes="128x128">
+<link rel="icon" type="image/png" href="/images/ariss_logo_192x192.png" sizes="192x192">
+
+<link href="/lib/bootstrap-4.6.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="/lib/leaflet-1.9.4/leaflet.css" rel="stylesheet">
+
+<style>
+  #current-location-map { height: 180px; }
+  #new-location-map { height: 180px; }
+</style>
+
+<script src="/lib/jquery-3.6.0.min.js"></script>
+<script src="/lib/bootstrap-4.6.0/js/bootstrap.min.js"></script>
+<script src="/lib/luxon-3.4.4.min.js"></script>
+<script src="/lib/leaflet-1.9.4/leaflet.js"></script>
+<script>
+
+let current_location_map = null;
+let new_location_map = null;
+
+let new_contact_upcoming = null;
+let new_location_marker = null;
+let new_location_latitude = null;
+let new_location_longitude = null;
+
+function loadConfigData()
+{
+    $.ajax({
+        url:      "/youtube.json",
+        dataType: "json",
+        type:     'GET',
+        cache:    false
+    }).done(function(data, status, xhr)
+    {
+      $('#current-school-name').val(data.contact_school);
+      $('#current-school-desc').val(data.contact_description);
+      $('#current-school-real-youtube-uri').val(data.youtube_uri);
+      $('#current-school-test-youtube-uri').val(data.test_youtube_uri);
+      $('#current-school-time').val(data.contact_datetime);
+
+      if(current_location_map == null)
+      {
+        current_location_map = L.map('current-location-map');
+        current_location_map.attributionControl.setPrefix('Leaflet');
+
+        if(data.contact_location != null)
+        {
+          current_location_map.setView([data.contact_location.latitude, data.contact_location.longitude], 8);
+        }
+        else
+        {
+          current_location_map.setView([20, -15], 3);
+        }
+
+         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              maxZoom: 19,
+              noWrap: true,
+              attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          }).addTo(current_location_map);
+      }
+      if(new_location_map == null)
+      {
+        new_location_map = L.map('new-location-map');
+        new_location_map.attributionControl.setPrefix('Leaflet');
+
+        if(data.contact_location != null)
+        {
+          new_location_map.setView([data.contact_location.latitude, data.contact_location.longitude], 8);
+        }
+        else
+        {
+          new_location_map.setView([20, -15], 3);
+        }
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            noWrap: true,
+            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+          }).addTo(new_location_map);
+
+         new_location_map.on('click', function(e){
+          new_location_latitude = fround(e.latlng.lat, 4);
+          new_location_longitude = fround(e.latlng.lng, 4);
+          $('#input-school-latitude').val(new_location_latitude);
+          $('#input-school-longitude').val(new_location_longitude);
+          if(new_location_marker != null)
+          {
+            new_location_map.removeLayer(new_location_marker);
+          }
+          new_location_marker = new L.marker(e.latlng).addTo(new_location_map);
+         });
+      }
+      if(data.contact_location != null)
+      {
+         var marker = L.marker([data.contact_location.latitude, data.contact_location.longitude]).addTo(current_location_map);
+         new_location_marker = L.marker([data.contact_location.latitude, data.contact_location.longitude]).addTo(new_location_map);
+        $('#current-school-latitude').val(data.contact_location.latitude);
+        $('#current-school-longitude').val(data.contact_location.longitude);
+        $('#input-school-latitude').val(data.contact_location.latitude);
+        $('#input-school-longitude').val(data.contact_location.longitude);
+        new_location_latitude = data.contact_location.latitude;
+        new_location_longitude = data.contact_location.longitude;
+      }
+      else
+      {
+         $('#current-school-latitude').val("");
+         $('#current-school-longitude').val("");
+      }
+
+      if(data.contact_upcoming)
+      {
+        new_contact_upcoming = true;
+
+        $('#current-contact-upcoming').text('Enabled');
+
+        $('#input-radio-nocontact').attr('checked', false);
+        $('#input-radio-yescontact').attr('checked', true);
+
+        $("#input-school-name").prop("disabled", false);
+        $("#input-school-desc").prop("disabled", false);
+        $("#input-school-time").prop("disabled", false);
+        $("#input-school-latitude").prop("disabled", false);
+        $("#input-school-longitude").prop("disabled", false);
+        $("#input-school-real-youtube-uri").prop("disabled", false);
+        $("#input-school-test-youtube-uri").prop("disabled", false);
+      }
+      else
+      {
+        new_contact_upcoming = false;
+
+        $('#current-contact-upcoming').text('Disabled');
+
+        $('#input-radio-nocontact').attr('checked', true);
+        $('#input-radio-yescontact').attr('checked', false);
+
+        $("#input-school-name").prop("disabled", true);
+        $("#input-school-desc").prop("disabled", true);
+        $("#input-school-time").prop("disabled", true);
+        $("#input-school-latitude").prop("disabled", true);
+        $("#input-school-longitude").prop("disabled", true);
+        $("#input-school-real-youtube-uri").prop("disabled", true);
+        $("#input-school-test-youtube-uri").prop("disabled", true);
+      }
+
+      $('#input-school-name').val(data.contact_school);
+      $('#input-school-desc').val(data.contact_description);
+      $('#input-school-real-youtube-uri').val(data.youtube_uri);
+      $('#input-school-test-youtube-uri').val(data.test_youtube_uri);
+      $('#input-school-time').val(data.contact_datetime);
+    });
+}
+
+function validate_inputTime(target_el)
+{
+  const input_string = target_el.value;
+  if(input_string != '')
+  {
+    const parsed_datetime = luxon.DateTime.fromFormat(input_string, "yyyy-MM-dd HH:mm:ss", { zone: 'utc'});
+
+    if(parsed_datetime.invalid != null)
+    {
+      target_el.classList.remove('is-valid');
+      target_el.classList.add('is-invalid');
+      return false;
+    }
+    else
+    {
+      target_el.classList.remove('is-invalid');
+      target_el.classList.add('is-valid');
+      return true;
+    }
+  }
+  else
+  {
+    target_el.classList.remove('is-valid');
+    target_el.classList.remove('is-invalid');
+  }
+  return false;
+}
+
+function updateMapMarkerFromInputs()
+{
+  new_location_latitude = Number($('#input-school-latitude').val());
+  new_location_longitude = Number($('#input-school-longitude').val());
+  if(new_location_marker != null)
+  {
+    new_location_map.removeLayer(new_location_marker);
+  }
+  new_location_marker = new L.marker(new L.latLng(new_location_latitude, new_location_longitude)).addTo(new_location_map);
+}
+
+$(document).ready(function()
+{
+	$("#refresh-submit").click(function(e)
+    {
+    	e.preventDefault();
+
+        loadConfigData();
+    }); 
+
+    $("#form-submit").click(function(e)
+    {
+    	e.preventDefault();
+
+      if(false === validate_inputTime($("#input-school-time")[0]))
+      {
+        alert("Error: Contact Datetime failed validation!");
+        return;
+      }
+
+    	const data = {
+        "contact_upcoming": new_contact_upcoming,
+        "real_youtube_uri": $("#input-school-real-youtube-uri").val(),
+        "test_youtube_uri": $("#input-school-test-youtube-uri").val(),
+        "contact_school": $("#input-school-name").val(),
+        "contact_description": $("#input-school-desc").val(),
+        "contact_datetime": $("#input-school-time").val(),
+        "contact_latitude": new_location_latitude,
+        "contact_longitude": new_location_longitude
+    	};
+
+    	$.ajax({
+    		  type: "POST",
+    		  url: "set.php",
+    		  data: data,
+    		  success: function() {
+            alert("Submitted");
+          }
+    		});
+
+    });
+
+    // Validate Input Time
+    $("#input-school-time").on("keyup", function(event)
+    {
+      validate_inputTime(event.target);
+    });
+
+    // Catch manual lat/lon input
+    $("#input-school-latitude").on("keyup", function(event)
+    {
+      updateMapMarkerFromInputs();
+    });
+    $("#input-school-longitude").on("keyup", function(event)
+    {
+      updateMapMarkerFromInputs();
+    });
+
+    // Catch yes/no upcoming contact radio button switch
+    $('input[type=radio][name=yesnocontact]').change(function() {
+      if(this.value == "yes")
+      {
+        new_contact_upcoming = true;
+
+        $("#input-school-name").prop("disabled", false);
+        $("#input-school-desc").prop("disabled", false);
+        $("#input-school-time").prop("disabled", false);
+        $("#input-school-latitude").prop("disabled", false);
+        $("#input-school-longitude").prop("disabled", false);
+        $("#input-school-real-youtube-uri").prop("disabled", false);
+        $("#input-school-test-youtube-uri").prop("disabled", false);
+      }
+      else
+      {
+        new_contact_upcoming = false;
+
+        $("#input-school-name").prop("disabled", true);
+        $("#input-school-desc").prop("disabled", true);
+        $("#input-school-time").prop("disabled", true);
+        $("#input-school-latitude").prop("disabled", true);
+        $("#input-school-longitude").prop("disabled", true);
+        $("#input-school-real-youtube-uri").prop("disabled", true);
+        $("#input-school-test-youtube-uri").prop("disabled", true);
+      }
+    });
+
+    loadConfigData();
+});
+
+function fround(value, decimals=0)
+{
+  const n = Math.pow(10, decimals);
+  return Number(Math.round(Number(value) * n) / n);
+}
+
+</script>
+</head>
+<body class="d-flex flex-column h-100">
+<main role="main" class="container-fluid mt-3">
+<div class="row">
+<div class="col-lg-6">
+	<h2>Current Stream Configuration</h2>
+    <div class="form-group row">
+    <label for="current-contact-upcoming" class="col-sm-2 col-form-label col-form-label-sm">
+      Upcoming Contact Enabled
+    </label>
+    <div class="col-sm-10">
+      <div id="current-contact-upcoming"></div>
+    </div>
+  </div>
+    <div class="form-group row">
+    <label for="current-school-name" class="col-sm-2 col-form-label col-form-label-sm">
+    	School Name
+    </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control form-control-sm" id="current-school-name" readonly>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="current-school-desc" class="col-sm-2 col-form-label col-form-label-sm">
+    	School Description
+    </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control form-control-sm" id="current-school-desc" readonly>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="current-school-time" class="col-sm-2 col-form-label col-form-label-sm">
+    	Contact Time (UTC)
+    </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control form-control-sm" id="current-school-time" readonly>
+    </div>
+  </div>
+    <div id="current-location-map" class="mb-1"></div>
+  <div class="form-group row">
+    <label for="current-school-latitude" class="col-sm-2 col-form-label col-form-label-sm">
+    	Contact Latitude, Longitude
+    </label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control form-control-sm" id="current-school-latitude" readonly>
+    </div>
+    <div class="col-sm-5">
+      <input type="text" class="form-control form-control-sm" id="current-school-longitude" readonly>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="current-school-real-youtube-uri" class="col-sm-2 col-form-label col-form-label-sm">
+    	Real Youtube URI
+    </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control form-control-sm" id="current-school-real-youtube-uri" readonly>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="current-school-test-youtube-uri" class="col-sm-2 col-form-label col-form-label-sm">
+      Test Youtube URI
+    </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control form-control-sm" id="current-school-test-youtube-uri" readonly>
+    </div>
+  </div>
+	<button type="submit" id="refresh-submit" class="btn btn-primary">Refresh</button>
+</div>
+
+
+<div class="col-lg-6">
+<form>
+	<h2>New Live Stream Configuration</h2>
+  <div class="form-group custom-control custom-radio row">
+      <input type="radio" id="input-radio-nocontact" name="yesnocontact" value="no" class="custom-control-input">
+      <label class="custom-control-label" for="input-radio-nocontact">No Contact Upcoming</label>
+  </div>
+  <div class="form-group custom-control custom-radio row">
+      <input type="radio" id="input-radio-yescontact" name="yesnocontact" value="yes" class="custom-control-input">
+      <label class="custom-control-label" for="input-radio-yescontact">Upcoming Contact:</label>
+  </div>
+  <div class="form-group row">
+    <label for="input-school-name" class="col-sm-2 col-form-label col-form-label-sm">
+    	School Name
+    </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control form-control-sm" id="input-school-name" placeholder="Today's Lucky School">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="input-school-desc" class="col-sm-2 col-form-label col-form-label-sm">
+    	School Description
+    </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control form-control-sm" id="input-school-desc" placeholder="Contact with....">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="input-school-time" class="col-sm-2 col-form-label col-form-label-sm">
+    	Contact Time (UTC)
+    </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control form-control-sm" id="input-school-time" placeholder="1970-12-31 00:00:00">
+    </div>
+  </div>
+    <div id="new-location-map" class="mb-1"></div>
+  <div class="form-group row">
+    <label for="input-school-lat" class="col-sm-2 col-form-label col-form-label-sm">
+      Contact Latitude, Longitude
+    </label>
+    <div class="col-sm-5">
+      <input type="text" class="form-control form-control-sm" id="input-school-latitude" placeholder="51.2324">
+    </div>
+    <div class="col-sm-5">
+      <input type="text" class="form-control form-control-sm" id="input-school-longitude" placeholder="-1.384">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="input-school-real-youtube-uri" class="col-sm-2 col-form-label col-form-label-sm">
+    	Real Youtube URI
+    </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control form-control-sm" id="input-school-real-youtube-uri" placeholder="h0fFOvN3">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="input-school-test-youtube-uri" class="col-sm-2 col-form-label col-form-label-sm">
+      TEST Youtube URI (optional)
+    </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control form-control-sm" id="input-school-test-youtube-uri" placeholder="h0fFOvN3">
+    </div>
+  </div>
+  <button type="submit" id="form-submit" class="btn btn-primary">Set New Config</button>
+</form>
+</div>
+</div>
+
+  </main>
+</body>
+</html>

@@ -1,17 +1,9 @@
-let hlsSource = "/hls/";
-const hlsSourceUrl = "/hls/sources.json";
-let streamName = "event";
-
-const posterPicture = "/images/webcast-poster.jpg";
-const posterVideo = "/images/webcast-poster.mp4";
-
-let statusHtml_connecting = "Connecting to Server...&nbsp;<img src=\""+loadingImage+"\" class=\"loading\"></img>";
-let statusText_inactive = "Standing by.";
-let statusText_active = "Stream running.";
 
 // Stream Countdown
 //var streamStartDate = new Date("Sept 1, 2018 08:00 UTC").getTime();
-const streamStartDate = new Date("April 18, 2024 10:00 UTC").getTime();
+let contact_upcoming = false;
+let streamStartDate = null;
+let isTestPage = false;
 
 // ISS Location and Angles
 let iss;
@@ -19,24 +11,23 @@ let iss_update_timer = null;
 let next_aos = null;
 let next_los = null;
 
-const venue_lat = 50.78;
-const venue_lon = -3.0;
-const venue_alt = 20;
+let venue_lat = null;
+let venue_lon = null;
+const venue_alt = 100;
+
+const DateTime = luxon.DateTime;
+const Interval = luxon.Interval;
 
 $(function()
 {
   const queryObj = parse_query_string(window.location.search.substring(1));
   if('test' in queryObj)
   {
-    if(typeof queryObj.test != 'undefined')
-    {
-      streamName = "event-test-" + queryObj.test;
-    }
-    else
-    {
-      streamName = "event-test";
-    }
+    isTestPage = true;
   }
+
+  // Load JSON config
+  loadConfigData();
 
   // Stream countdown
   updateCountdown();
@@ -57,7 +48,6 @@ $(function()
      setTimeout(ga_realtime, 60*1000);
   }
   ga_realtime();
-
 });
 
 /* Refresh page every 6 hours to update lurkers */
@@ -65,14 +55,21 @@ setTimeout(function() { window.location.href=window.location.href; }, 6*60*60*10
 
 function updateCountdown()
 {
-  var distance = streamStartDate - (new Date().getTime());
-  
+  if(streamStartDate == null)
+  {
+    $("#lowerbox-countdown").hide();
+    setTimeout(updateCountdown, 1000);
+    return;
+  }
+
+  const distance = 1000 * Interval.fromDateTimes(DateTime.now(), streamStartDate).length('seconds');
+
   if(distance > 0)
   {
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
   // Display the result in the element with id="demo"
 
@@ -90,75 +87,140 @@ function updateCountdown()
 
 function updateISSData()
 {
-    var utc_now = new Date();
-    iss.refresh();
-    $("#utc-time-display").text(pad(utc_now.getUTCHours(),2)+":"+pad(utc_now.getUTCMinutes(),2)+":"+pad(utc_now.getUTCSeconds(),2)+" UTC");
-    var venue_iss_range = Math.round((latlonRange([venue_lat, venue_lon],venue_alt,iss.orbit.getPosition(),iss.orbit.getAltitude()*1000))/1000);
-    var venue_iss_azimuth = Math.round(relativeAzimuth(
-      [ venue_lat, venue_lon], venue_alt,
-      iss.orbit.getPosition(), iss.orbit.getAltitude()*1000
-      )*10)/10;
-    var venue_iss_elevation = Math.round(relativeElevation(
-      [ venue_lat, venue_lon], venue_alt,
-      iss.orbit.getPosition(), iss.orbit.getAltitude()*1000
-      )*10)/10;
-    $("#iss-data-position").text(
-        (Math.round(iss.orbit.getPosition()[0]*10000)/10000).toFixed(4) + "°, "
-        +(Math.round(iss.orbit.getPosition()[1]*10000)/10000).toFixed(4) + "°"
-    );
-    $("#iss-data-altitude").text(
-        (Math.round(iss.orbit.getAltitude()*10)/10).toFixed(1) + " km"
-    );
-    $("#venue-iss-range").text(venue_iss_range.toFixed(0)+'km');
-    $("#venue-iss-azimuth").text(venue_iss_azimuth.toFixed(1)+'° ('+compass(venue_iss_azimuth)+')');
-    if(venue_iss_elevation >= 10)
+  if(contact_upcoming == false || venue_lat == null || venue_lon == null)
+  {
+    iss_update_timer = setTimeout(updateISSData,1000);
+    return;
+  }
+
+  const utc_now = new Date();
+  iss.refresh();
+
+  $("#utc-time-display").text(pad(utc_now.getUTCHours(),2)+":"+pad(utc_now.getUTCMinutes(),2)+":"+pad(utc_now.getUTCSeconds(),2)+" UTC");
+  const venue_iss_range = Math.round((latlonRange([venue_lat, venue_lon],venue_alt,iss.orbit.getPosition(),iss.orbit.getAltitude()*1000))/1000);
+  const venue_iss_azimuth = Math.round(relativeAzimuth(
+    [ venue_lat, venue_lon], venue_alt,
+    iss.orbit.getPosition(), iss.orbit.getAltitude()*1000
+    )*10)/10;
+  const venue_iss_elevation = Math.round(relativeElevation(
+    [ venue_lat, venue_lon], venue_alt,
+    iss.orbit.getPosition(), iss.orbit.getAltitude()*1000
+    )*10)/10;
+  $("#iss-data-position").text(
+    (Math.round(iss.orbit.getPosition()[0]*10000)/10000).toFixed(4) + "°, "
+    +(Math.round(iss.orbit.getPosition()[1]*10000)/10000).toFixed(4) + "°"
+  );
+  $("#iss-data-altitude").text(
+      (Math.round(iss.orbit.getAltitude()*10)/10).toFixed(1) + " km"
+  );
+  $("#venue-iss-range").text(venue_iss_range.toFixed(0)+'km');
+  $("#venue-iss-azimuth").text(venue_iss_azimuth.toFixed(1)+'° ('+compass(venue_iss_azimuth)+')');
+  if(venue_iss_elevation >= 10)
+  {
+    $("#venue-iss-elevation")
+      .removeClass("station-elevation-horizon")
+      .removeClass("station-elevation-occluded")
+      .addClass("station-elevation-visible")
+      .text(venue_iss_elevation.toFixed(1)+'°');
+    /*if(next_los == null)
     {
-      $("#venue-iss-elevation")
-        .removeClass("station-elevation-horizon")
-        .removeClass("station-elevation-occluded")
-        .addClass("station-elevation-visible")
-        .text(venue_iss_elevation.toFixed(1)+'°');
-      /*if(next_los == null)
-      {
-          next_los = findLos([venue_lat, venue_lon],venue_alt,0);
-          $("#venue-iss-nextpass-label").text("End of pass");
-      }
-      $("#venue-iss-nextpass").text("-" + countdownTimeString(next_los));
-      next_aos = null;
-      */
+        next_los = findLos([venue_lat, venue_lon],venue_alt,0);
+        $("#venue-iss-nextpass-label").text("End of pass");
     }
-    else if(venue_iss_elevation > 0)
+    $("#venue-iss-nextpass").text("-" + countdownTimeString(next_los));
+    next_aos = null;
+    */
+  }
+  else if(venue_iss_elevation > 0)
+  {
+    $("#venue-iss-elevation")
+      .removeClass("station-elevation-occluded")
+      .removeClass("station-elevation-visible")
+      .addClass("station-elevation-horizon")
+      .text(venue_iss_elevation.toFixed(1)+'°');
+    /*if(next_los == null)
     {
-      $("#venue-iss-elevation")
-        .removeClass("station-elevation-occluded")
-        .removeClass("station-elevation-visible")
-        .addClass("station-elevation-horizon")
-        .text(venue_iss_elevation.toFixed(1)+'°');
-      /*if(next_los == null)
+        next_los = findLos([venue_lat, venue_lon],venue_alt,0);
+        $("#venue-iss-nextpass-label").text("End of pass");
+    }
+    $("#venue-iss-nextpass").text("-" + countdownTimeString(next_los));
+    next_aos = null;*/
+  }
+  else
+  {
+    $("#venue-iss-elevation")
+      .removeClass("station-elevation-visible")
+      .removeClass("station-elevation-horizon")
+      .addClass("station-elevation-occluded")
+      .text(venue_iss_elevation.toFixed(1)+'° (below horizon)');
+    /*if(next_aos == null)
+    {
+        next_aos = findAos([venue_lat, venue_lon],venue_alt,0);
+        $("#venue-iss-nextpass-label").text("Next pass");
+    }
+    $("#venue-iss-nextpass").text("-" + countdownTimeString(next_aos));
+    next_los = null;*/
+  }
+  iss_update_timer = setTimeout(updateISSData,1000);
+}
+
+function loadConfigData()
+{
+  $.ajax({
+      url:      "/youtube.json",
+      dataType: "json",
+      type:     'GET',
+      cache:    false
+  }).done(function(data, status, xhr)
+  {
+    //console.log(data);
+
+    contact_upcoming = data.contact_upcoming;
+
+    if(contact_upcoming == true && data.youtube_uri != null && data.youtube_uri.length > 0)
+    {
+      $('#logoplayer').hide();
+      $('#stream-player').show();
+      if(isTestPage && data.test_youtube_uri != null && data.test_youtube_uri.length > 0)
       {
-          next_los = findLos([venue_lat, venue_lon],venue_alt,0);
-          $("#venue-iss-nextpass-label").text("End of pass");
+        $('#stream-iframe').attr('src', `https://youtube.com/embed/${data.test_youtube_uri}?autoplay=1&rel=0&widget_referrer=live.ariss.org`);
       }
-      $("#venue-iss-nextpass").text("-" + countdownTimeString(next_los));
-      next_aos = null;*/
+      else
+      {
+        $('#stream-iframe').attr('src', `https://youtube.com/embed/${data.youtube_uri}?autoplay=1&rel=0&widget_referrer=live.ariss.org`);
+      }
+      destroyLogoPlayer();
     }
     else
     {
-      $("#venue-iss-elevation")
-        .removeClass("station-elevation-visible")
-        .removeClass("station-elevation-horizon")
-        .addClass("station-elevation-occluded")
-        .text(venue_iss_elevation.toFixed(1)+'° (below horizon)');
-      /*if(next_aos == null)
-      {
-          next_aos = findAos([venue_lat, venue_lon],venue_alt,0);
-          $("#venue-iss-nextpass-label").text("Next pass");
-      }
-      $("#venue-iss-nextpass").text("-" + countdownTimeString(next_aos));
-      next_los = null;*/
+      $('#stream-player').hide();
+      $('#logoplayer').show();
+      createLogoPlayer($('#logoplayer')[0]);
     }
-    iss_update_timer = setTimeout(updateISSData,1000);
+
+    if(contact_upcoming)
+    {
+      $('#school-name').text(`${data.contact_school}`);
+
+      streamStartDate = luxon.DateTime.fromFormat(data.contact_datetime, "yyyy-MM-dd HH:mm:ss", { zone: 'utc'});
+
+      if(streamStartDate.invalid == null)
+      {
+        // Wednesday 18th October @ 0957 UTC<br>
+        const dt_string = streamStartDate.toFormat('cccc d LLLL yyyy @ HHmm');
+        $('#contact-description').html(`${dt_string} UTC<br>${data.contact_description}`);
+      }
+      else
+      {
+        $('#contact-description').html(`${data.contact_description}`);
+      }
+
+      venue_lat = data.contact_location.latitude;
+      venue_lon = data.contact_location.longitude;
+    }
+  });
 }
+
 
 function loadTLE()
 {
@@ -260,4 +322,10 @@ function pad(num, size) {
     var s = num+"";
     while (s.length < size) s = "0" + s;
     return s;
+}
+function numordstr(n)
+{
+  const s = ["th", "st", "nd", "rd"];
+  const v = n%100;
+  return n + (s[(v-20)%10] || s[v] || s[0]);
 }

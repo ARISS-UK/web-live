@@ -272,42 +272,26 @@ function parse_query_string(query) {
 }
 function compass(angle)
 {
-  var degree = 360 / 16;
+  var degree = 360 / 8;
   angle = angle + degree/2;
         
   if(angle >= 0 * degree && angle < 1 * degree)
-    return "N";
+    return "North";
   if(angle >= 1 * degree && angle < 2 * degree)
-    return "NNE";
+    return "North-East";
   if(angle >= 2 * degree && angle < 3 * degree)
-    return "NE";
+    return "East";
   if(angle >= 3 * degree && angle < 4 * degree)
-    return "ENE";
+    return "South-East";
   if(angle >= 4 * degree && angle < 5 * degree)
-    return "E";
+    return "South";
   if(angle >= 5 * degree && angle < 6 * degree)
-    return "ESE";
+    return "South-West";
   if(angle >= 6 * degree && angle < 7 * degree)
-    return "SE";
+    return "West";
   if(angle >= 7 * degree && angle < 8 * degree)
-    return "SSE";
-  if(angle >= 8 * degree && angle < 9 * degree)
-    return "S";
-  if(angle >= 9 * degree && angle < 10 * degree)
-    return "SSW";
-  if(angle >= 10 * degree && angle < 11 * degree)
-    return "SW";
-  if(angle >= 11 * degree && angle < 12 * degree)
-    return "WSW";
-  if(angle >= 12 * degree && angle < 13 * degree)
-    return "W";
-  if(angle >= 13 * degree && angle < 14 * degree)
-    return "WNW";
-  if(angle >= 14 * degree && angle < 15 * degree)
-    return "NW";
-  if(angle >= 15 * degree && angle < 16 * degree)
-    return "NNW";
-  return "N";
+    return "North-West";
+  return "North";
 }
 
 function countdownTimeString(aosTime) {

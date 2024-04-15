@@ -26,11 +26,8 @@ $(function()
     isTestPage = true;
   }
 
-  // Load JSON config
+  // Load JSON config -> Update countdown
   loadConfigData();
-
-  // Stream countdown
-  updateCountdown();
 
   // Load TLE -> Trigger ISS Location and Angles
   loadTLE();
@@ -217,6 +214,8 @@ function loadConfigData()
 
       venue_lat = data.contact_location.latitude;
       venue_lon = data.contact_location.longitude;
+
+      updateCountdown();
     }
   });
 }

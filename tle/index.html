@@ -110,21 +110,21 @@ td {
 <script src="/lib/orbits-1.2.1.js"></script>
 <script>
 /*** Phil's Satellite Code ***/
-var iss;
-var future_iss;
-var iss_update_timer = null;
-var ourLocation = [50.049, -5.183]; // Goonhilly by default
-var ourAltitude = 0; // Meters
-var aosThreshold = 0; // Degrees
-var tleDate = "";
-var epochDate = "";
+let iss;
+let future_iss;
+let iss_update_timer = null;
+const ourLocation = [50.049, -5.183]; // Goonhilly by default
+const ourAltitude = 0; // Meters
+const aosThreshold = 0; // Degrees
+let tleDate = "";
+let epochDate = "";
 
 loadTLE();
 
 /* Data update function */
 function updateISSData()
 {
-    var utc_now = new Date();
+    const utc_now = new Date();
     iss.refresh();
     $("#iss-data-time").text(pad(utc_now.getUTCHours(),2)+":"+pad(utc_now.getUTCMinutes(),2)+":"+pad(utc_now.getUTCSeconds(),2)+" UTC");
     $("#iss-data-position").text(
@@ -143,12 +143,12 @@ function loadTLE()
         type:     'GET',
         cache:    false
     }).done(function(data, status, xhr) {
-       var stations = orbits.util.parseTLE(data);
-       for(var i = 0; i < stations.length; i++)
+       const stations = orbits.util.parseTLE(data);
+       for(let i = 0; i < stations.length; i++)
        {
            if(stations[i].name == "ISS (ZARYA)")
            {
-       	       var satOpts = {
+       	       const satOpts = {
        	           tle: stations[i],
        	           pathLength: 1,
        	       };
@@ -162,7 +162,7 @@ function loadTLE()
        	       tleDate = convertDateToUTC(new Date(xhr.getResponseHeader("Last-Modified")));
        	       $("#iss-data-fileupdated").text(tleDate.toLocaleDateString() + " " + tleDate.toLocaleTimeString() + " UTC");
    
-       	       epochDate = convertDateToUTC(epochToDate(iss.tle.epoch_year,iss.tle.epoch_day));
+       	       epochDate = epochToDate(iss.tle.epoch_year,iss.tle.epoch_day);
        	       $("#iss-data-epoch").text(epochDate.toLocaleDateString() + " " + epochDate.toLocaleTimeString() + " UTC");
        	    
                if(iss_update_timer == null)
@@ -181,21 +181,29 @@ function loadTLE()
    });
 }
 function pad(num, size) {
-    var s = num+"";
+    let s = num+"";
     while (s.length < size) s = "0" + s;
     return s;
 }
 function epochToDate(year, fday){
-  var date = new Date(year, 0); // initialize a date in `year-01-01`
+  let date = new Date(year, 0); // initialize a date in `year-01-01`
   
-  var day = Math.floor(fday);
+  const day = Math.floor(fday);
   date = new Date(date.setDate(day));
   
-  var hours = Math.floor((fday - day)*24);
+  const fhours = (fday - day)*24.0;
+  const hours = Math.floor(fhours);
   date = new Date(date.setHours(hours));
   
-  var minutes = Math.floor(((fday-day)-(hours/24))*(24*60));
-  return new Date(date.setMinutes(minutes)); // add the number of days
+  const fminutes = (fhours - hours)*60.0;
+  const minutes = Math.floor(fminutes);
+  date = new Date(date.setMinutes(minutes));
+
+  const fseconds = (fminutes - minutes)*60.0;
+  const seconds = Math.floor(fseconds);
+  date = new Date(date.setSeconds(seconds));
+
+  return date;
 }
 function convertDateToUTC(date) {
   return new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
@@ -207,7 +215,7 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'UA-117280924-1');
 /* Send event 1x per minute to count viewers */
-var ga_page = 'tle';
+const ga_page = 'tle';
 function ga_realtime()
 {
    gtag('event', ga_page+'-page-1m', {'event_category': 'viewers'});

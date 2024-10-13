@@ -1,6 +1,5 @@
 <?php
 
-
 /*
 {
     "real_youtube_uri": "h0fFOvN3yd0",
@@ -20,31 +19,38 @@
 }
 */
 
+echo json_encode($_POST);
 
-echo  json_encode($_POST);
-
-$contact_upcoming = $_POST["contact_upcoming"];
-$real_youtube_uri = $_POST["real_youtube_uri"];
-$test_youtube_uri = $_POST["test_youtube_uri"];
-$contact_school = $_POST["contact_school"];
-$contact_description = $_POST["contact_description"];
-$contact_latitude = $_POST["contact_latitude"];
-$contact_longitude = $_POST["contact_longitude"];
-$contact_datetime = $_POST["contact_datetime"];
+$info_html = $_POST["info_html"];
+$player_enabled = $_POST["player_enabled"];
+$player_youtube_url = $_POST["player_youtube_url"];
+$visibility_enabled = $_POST["visibility_enabled"];
+$visibility_latitude = $_POST["visibility_latitude"];
+$visibility_longitude = $_POST["visibility_longitude"];
 
 $json_output = json_encode([
-    'contact_upcoming' => $contact_upcoming == "true",
-    'youtube_uri' => $real_youtube_uri,
-    'test_youtube_uri' => $test_youtube_uri,
-    'contact_school' => $contact_school,
-    'contact_description' => $contact_description,
-    'contact_location' => [
-        'latitude' => $contact_latitude,
-        'longitude' => $contact_longitude
-    ],
-    'contact_datetime' => $contact_datetime
+    'info_html' => $info_html,
+    'player_enabled' => filter_var($player_enabled, FILTER_VALIDATE_BOOLEAN),
+    'player_youtube_url' => $player_youtube_url,
+    'visibility_enabled' => filter_var($visibility_enabled, FILTER_VALIDATE_BOOLEAN),
+    'visibility_location' => [
+        'latitude' => filter_var($visibility_latitude, FILTER_VALIDATE_FLOAT),
+        'longitude' => filter_var($visibility_longitude, FILTER_VALIDATE_FLOAT)
+    ]
 ]);
 
-file_put_contents('../youtube.json', $json_output);
+file_put_contents('../live-config.json', $json_output);
+
+// Logging
+date_default_timezone_set('Etc/UTC');
+
+$logfilename = "./" . date('Y-m-d_His') . ".txt";
+
+$logfile = fopen($logfilename, "w") or die("Unable to open file!");
+fwrite($logfile, 'POST:\n');
+fwrite($logfile, json_encode($_POST));
+fwrite($logfile, '\nOutput:\n');
+fwrite($logfile, $json_output);
+fclose($logfile);
 
 ?>

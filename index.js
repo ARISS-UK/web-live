@@ -1,9 +1,7 @@
+'use strict';
 
-// Stream Countdown
-//var streamStartDate = new Date("Sept 1, 2018 08:00 UTC").getTime();
-let contact_upcoming = false;
-let streamStartDate = null;
-let isTestPage = false;
+let player_enabled = false;
+let visibility_enabled = false;
 
 // ISS Location and Angles
 let iss;
@@ -20,12 +18,6 @@ const Interval = luxon.Interval;
 
 $(function()
 {
-  const queryObj = parse_query_string(window.location.search.substring(1));
-  if('test' in queryObj)
-  {
-    isTestPage = true;
-  }
-
   // Load JSON config -> Update countdown
   loadConfigData();
 
@@ -50,42 +42,11 @@ $(function()
 /* Refresh page every 6 hours to update lurkers */
 setTimeout(function() { window.location.href=window.location.href; }, 6*60*60*1000);
 
-function updateCountdown()
-{
-  if(streamStartDate == null)
-  {
-    $("#lowerbox-countdown").hide();
-    setTimeout(updateCountdown, 1000);
-    return;
-  }
-
-  const distance = 1000 * Interval.fromDateTimes(DateTime.now(), streamStartDate).length('seconds');
-
-  if(distance > 0)
-  {
-    let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-  // Display the result in the element with id="demo"
-
-    $("#lowerbox-countdown").show(); 
-    $("#lowerbox-countdown-value").text(pad(days,2) + "d " + pad(hours,2) + "h " + pad(minutes,2) + "m " + pad(seconds,2) + "s ");
-  }
-  else
-  {
-    $("#lowerbox-countdown").hide();
-  }
-
-  setTimeout(updateCountdown, 1000);
-}
-
-
 function updateISSData()
 {
-  if(contact_upcoming == false || venue_lat == null || venue_lon == null)
+  if(visibility_enabled == false || venue_lat == null || venue_lon == null)
   {
+    $("#iss-relative-paragraph").hide();
     iss_update_timer = setTimeout(updateISSData,1000);
     return;
   }
@@ -158,13 +119,15 @@ function updateISSData()
     $("#venue-iss-nextpass").text("-" + countdownTimeString(next_aos));
     next_los = null;*/
   }
+  $("#iss-relative-paragraph").show();
+
   iss_update_timer = setTimeout(updateISSData,1000);
 }
 
 function loadConfigData()
 {
   $.ajax({
-      url:      "/youtube.json",
+      url:      "/live-config.json",
       dataType: "json",
       type:     'GET',
       cache:    false
@@ -172,20 +135,14 @@ function loadConfigData()
   {
     //console.log(data);
 
-    contact_upcoming = data.contact_upcoming;
+    player_enabled = data.player_enabled;
+    visibility_enabled = data.visibility_enabled;
 
-    if(contact_upcoming == true && data.youtube_uri != null && data.youtube_uri.length > 0)
+    if(player_enabled == true && data.player_youtube_url != null && data.player_youtube_url.length > 0)
     {
       $('#logoplayer').hide();
       $('#stream-player').show();
-      if(isTestPage && data.test_youtube_uri != null && data.test_youtube_uri.length > 0)
-      {
-        $('#stream-iframe').attr('src', `https://youtube.com/embed/${data.test_youtube_uri}?autoplay=1&rel=0&widget_referrer=live.ariss.org`);
-      }
-      else
-      {
-        $('#stream-iframe').attr('src', `https://youtube.com/embed/${data.youtube_uri}?autoplay=1&rel=0&widget_referrer=live.ariss.org`);
-      }
+      $('#stream-iframe').attr('src', `${data.player_youtube_url}?autoplay=1&rel=0`);
       destroyLogoPlayer();
     }
     else
@@ -195,27 +152,12 @@ function loadConfigData()
       createLogoPlayer($('#logoplayer')[0]);
     }
 
-    if(contact_upcoming)
+    $('#top-info-pane').html(strunescape(data.info_html));
+
+    if(data.visibility_enabled)
     {
-      $('#school-name').text(`${data.contact_school}`);
-
-      streamStartDate = luxon.DateTime.fromFormat(data.contact_datetime, "yyyy-MM-dd HH:mm:ss", { zone: 'utc'});
-
-      if(streamStartDate.invalid == null)
-      {
-        // Wednesday 18th October @ 0957 UTC<br>
-        const dt_string = streamStartDate.toFormat('cccc d LLLL yyyy @ HHmm');
-        $('#contact-description').html(`${dt_string} UTC<br>${data.contact_description}`);
-      }
-      else
-      {
-        $('#contact-description').html(`${data.contact_description}`);
-      }
-
-      venue_lat = data.contact_location.latitude;
-      venue_lon = data.contact_location.longitude;
-
-      updateCountdown();
+      venue_lat = data.visibility_location.latitude;
+      venue_lon = data.visibility_location.longitude;
     }
   });
 }
@@ -223,46 +165,46 @@ function loadConfigData()
 
 function loadTLE()
 {
-    $.ajax({
-        url:      "/iss.txt",
-        type:     'GET',
-        cache:    false
-    }).done(function(data, status, xhr) {
-       var stations = orbits.util.parseTLE(data);
-       for(var i = 0; i < stations.length; i++)
-       {
-           if(stations[i].name == "ISS (ZARYA)")
-           {
-               var satOpts = {
-                   tle: stations[i],
-                   pathLength: 1,
-               };
-               iss = new orbits.Satellite(satOpts);  
-            
-               if(iss_update_timer == null)
-               {
-                   // Start ISS Data Update timer
-                   updateISSData();
-               }
-           }
-       }
-   }).fail(function() {
-       console.log("TLE Error.");
-   }).always(function() {
-       // Reload TLE every 600s (10 minutes)
-       setTimeout(loadTLE, 600*1000);
-   });
+  $.ajax({
+    url:      "/iss.txt",
+    type:     'GET',
+    cache:    false
+  }).done(function(data, status, xhr) {
+    let stations = orbits.util.parseTLE(data);
+    for(let i = 0; i < stations.length; i++)
+    {
+      if(stations[i].name == "ISS (ZARYA)")
+      {
+        let satOpts = {
+          tle: stations[i],
+          pathLength: 1,
+        };
+        iss = new orbits.Satellite(satOpts);  
+
+        if(iss_update_timer == null)
+        {
+          // Start ISS Data Update timer
+          updateISSData();
+        }
+      }
+    }
+  }).fail(function() {
+    console.log("TLE Error.");
+  }).always(function() {
+    // Reload TLE every 600s (10 minutes)
+    setTimeout(loadTLE, 600*1000);
+  });
 }
 
 function parse_query_string(query) {
-  var vars = query.split("&");
-  var query_string = {};
-  for (var i = 0; i < vars.length; i++) {
-    var pair = vars[i].split("=");
+  let vars = query.split("&");
+  let query_string = {};
+  for (let i = 0; i < vars.length; i++) {
+    let pair = vars[i].split("=");
     if (typeof query_string[pair[0]] === "undefined") {
       query_string[pair[0]] = decodeURIComponent(pair[1]);
     } else if (typeof query_string[pair[0]] === "string") {
-      var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+      let arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
       query_string[pair[0]] = arr;
     } else {
       query_string[pair[0]].push(decodeURIComponent(pair[1]));
@@ -272,7 +214,7 @@ function parse_query_string(query) {
 }
 function compass(angle)
 {
-  var degree = 360 / 8;
+  let degree = 360 / 8;
   angle = angle + degree/2;
         
   if(angle >= 0 * degree && angle < 1 * degree)
@@ -295,14 +237,14 @@ function compass(angle)
 }
 
 function countdownTimeString(aosTime) {
-    var now = new Date();
-    var d = new Date(now.getTime());
-    var diff = aosTime.getTime() - d.getTime();
-    var diff_as_date = new Date(diff);
+    let now = new Date();
+    let d = new Date(now.getTime());
+    let diff = aosTime.getTime() - d.getTime();
+    let diff_as_date = new Date(diff);
     return pad(diff_as_date.getUTCHours(),2) + ":" + pad(diff_as_date.getUTCMinutes(),2) + ":" + pad(diff_as_date.getUTCSeconds(),2);
 }
 function pad(num, size) {
-    var s = num+"";
+    let s = num+"";
     while (s.length < size) s = "0" + s;
     return s;
 }
@@ -311,4 +253,18 @@ function numordstr(n)
   const s = ["th", "st", "nd", "rd"];
   const v = n%100;
   return n + (s[(v-20)%10] || s[v] || s[0]);
+}
+
+function strunescape(s)
+{
+  return s = ('' + s)
+    .replace(/\\x3E/g, '>')
+    .replace(/\\x3C/g, '<')
+    .replace(/\\x22/g, '"')
+    .replace(/\\x27/g, "'")
+    .replace(/\\x26/g, '&')
+    .replace(/\\u00A0/g, '\u00A0')
+    .replace(/\\n/g, '\n')
+    .replace(/\\t/g, '\t')
+    .replace(/\\\\/g, '\\');
 }

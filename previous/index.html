@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ARISS Previous Webcasts</title>
+<meta name="description" content="Latest ISS TLE">
+<link rel="icon" type="image/png" href="/images/ariss_logo_32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/ariss_logo_64x64.png" sizes="64x64">
+<link rel="icon" type="image/png" href="/images/ariss_logo_128x128.png" sizes="128x128">
+<link rel="icon" type="image/png" href="/images/ariss_logo_192x192.png" sizes="192x192">
+<link href="/lib/bootstrap-4.6.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="/lib/ariss.css" rel="stylesheet">
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    line-height: 2em;
+}
+.page-row {
+  padding-bottom: 10px;
+    color: #FFFFFF;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-weight: bold;
+}
+table {
+	width: 60%;
+}
+td {
+	width: 70px;
+}
+#tle-description {
+  font-weight: normal;
+}
+#textarea-tle {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    width: 650px;
+    height: 120px;
+    color: #000;
+}
+</style>
+</head>
+<body>
+<img id="header-image" src="/images/ariss-org-header.png"></img>
+
+<div class="navbar navbar-light navbar-expand-lg" role="navigation">
+  <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+    <div class="navbar-collapse collapse">
+      <div class="navbar-nav">
+        <a href="/" class="nav-item nav-link">Live Webcast</a>
+        <a href="/dashboard/esamap/" class="nav-item nav-link" target="_blank">ISS Map</a>
+        <a href="/hamtv/" class="nav-item nav-link">HAMTV Receivers</a>
+        <a href="#" class="nav-item nav-link active">ISS TLE</a>
+      </div>
+    </div>
+</div>
+
+<div id="page-background">
+<div class="container">
+<div class="row page-row">
+  <div class="col-md-12">
+    <h1>Previous ARISS Webcasts</h1>
+    <p>
+      This page contains links to past ARISS event webcasts. To watch a current ARISS event please visit <a href="/">Live Webcast</a>
+    </p>
+    <h4>2024</h4>
+    <ul>
+      <li><a href="https://youtube.com/live/lxN4VuNj_AY" target="_blank">5th October 2024 - Girlguiding Surrey West, Weybridge, UK</a></li>
+    </ul>
+  </div>
+</div>
+</div>
+</div>
+<div id="footer">
+© <a href="http://www.ariss.org/" target="_blank">ARISS<a/>
+</div>
+</div>
+</body>
+<script src="/lib/jquery-3.6.0.min.js"></script>
+<script src="/lib/bootstrap-4.6.0/js/bootstrap.min.js"></script>
+<script>
+// Google Analytics (Apr 2018)
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'UA-117280924-1');
+/* Send event 1x per minute to count viewers */
+const ga_page = 'previous';
+function ga_realtime()
+{
+   gtag('event', ga_page+'-page-1m', {'event_category': 'viewers'});
+   setTimeout(ga_realtime, 60*1000);
+}
+ga_realtime();
+/* Refresh page every 6 hours to update lurkers */
+setTimeout(function() { window.location.href=window.location.href; }, 6*60*60*1000);
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-117280924-1"></script>
+</html>
